@@ -1,0 +1,24 @@
+{
+  "buttons": [
+    {
+      "image": "varsmile",
+      "text": "  var",
+      "doing": "variable()"
+    },
+    {
+      "image": "varsmile",
+      "text": "opers",
+      "doing": "variable()"
+    },
+    {
+      "image": "varsmile",
+      "text": "   if",
+      "doing": "variable()"
+    },
+    {
+      "image": "varsmile",
+      "text": " loop",
+      "doing": "variable()"
+    }
+  ]
+}
