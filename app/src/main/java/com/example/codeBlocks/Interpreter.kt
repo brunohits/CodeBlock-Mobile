@@ -1,3 +1,4 @@
+@Suppress("NAME_SHADOWING")
 class Expression {
     fun toReversePolishNotation(expression: String, variables: Map<String, Any>): String {
         val stack = mutableListOf<String>()
@@ -25,9 +26,9 @@ class Expression {
                     output.add(token)
                 }else if(token.matches(arrayRegex)){
                     val expression = Expression()
-                    val arrayIndex = expression.evaluateReversePolishNotation(expression.toReversePolishNotation(arrayExpressionRegex.find(token)!!.value,variables)).toInt().toString()
+                    val arrayIndex = expression.evaluateRPN(expression.toReversePolishNotation(arrayExpressionRegex.find(token)!!.value,variables)).toInt().toString()
                     val arrayName = arrayNameRegex.find(token)!!.value
-                    val arrayToken = arrayName+"["+arrayIndex+"]"
+                    val arrayToken = "$arrayName[$arrayIndex]"
                     val value = variables[arrayToken] ?: throw IllegalArgumentException("Unknown variable: $token")
                     output.add(value.toString())
                 }else{
@@ -37,15 +38,13 @@ class Expression {
 
             }
         }
-
         while (stack.isNotEmpty()) {
             output.add(stack.removeLast())
         }
-
         return output.joinToString(" ")
     }
 
-    public fun evaluateReversePolishNotation(rpn: String): Double {
+    fun evaluateRPN(rpn: String): Double {
         val stack = mutableListOf<Double>()
 
         rpn.split(" ").forEach { token ->
@@ -73,7 +72,7 @@ class Expression {
             throw IllegalArgumentException("Invalid RPN expression: $rpn")
         }
 
-        return stack[0].toDouble()
+        return stack[0]
     }
 
     private fun precedence(operator: String): Int {

@@ -1,4 +1,4 @@
-package com.example.OurMobile
+package com.example.codeBlocks
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +30,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -38,6 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.OurMobile.R
 import kotlin.math.roundToInt
 
 @Composable
@@ -54,7 +54,7 @@ fun BeginBlock(
             .width(300.dp)
             .height(60.dp)
             .padding(2.dp)
-            .background(Color.LightGray,)
+            .background(Color.LightGray)
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = {
@@ -207,7 +207,7 @@ fun EndBlock(
             .width(300.dp)
             .height(60.dp)
             .padding(2.dp)
-            .background(Color.LightGray,)
+            .background(Color.LightGray)
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = {
@@ -283,7 +283,7 @@ fun TypeVarDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value;
+                        var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -369,7 +369,7 @@ fun ForBlockDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value;
+                        var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -458,7 +458,7 @@ fun CoutBlockDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value;
+                        var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -482,8 +482,8 @@ fun CoutBlockDraggable(
                 modifier = Modifier.weight(1f),
                 textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                 value = variableName.value,
-                onValueChange = { newText ->
-                    variableName.value = newText
+                onValueChange = { inputedText ->
+                    variableName.value = inputedText
                     // Изменять значение внешнего класса (значение имени переменной) здесь (при изменении текст филда) именно через variableName.value
                 }
             )
@@ -520,7 +520,7 @@ fun VarAssignmentDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value;
+                        var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -531,7 +531,7 @@ fun VarAssignmentDraggable(
             },
         shape = RoundedCornerShape(15.dp),
     ) {
-        Box() {
+        Box {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
@@ -592,7 +592,7 @@ fun IfBlockDraggable(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y

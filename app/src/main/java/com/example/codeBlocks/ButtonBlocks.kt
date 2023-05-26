@@ -1,4 +1,4 @@
-package com.example.OurMobile
+package com.example.codeBlocks
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -22,6 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import com.example.OurMobile.R
+
 
 var myGlobalNumber by mutableStateOf(0)
 

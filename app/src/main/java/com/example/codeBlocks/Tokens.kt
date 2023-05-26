@@ -1,11 +1,8 @@
-package com.example.OurMobile
-
+package com.example.codeBlocks
 import Expression
 
 interface IToken {
-    fun command(input:String, program:CelestialElysiaInterpreter){
-
-    }
+    fun command(input:String, program:CelestialElysiaInterpreter){}
     var regex: Regex
     var returnType: String
 }
@@ -22,7 +19,7 @@ class VariableToken : IToken{
             "string" -> ""
             else -> 0
         }
-        program.varHashMap.put(arguments[0], variableType)
+        program.varHashMap[arguments[0]] = variableType
     }
 }
 class EqualsToken : IToken{
@@ -41,16 +38,16 @@ class EqualsToken : IToken{
         val arguments = processedInput!!.split(",")
         val tokenName = tokenRegex.find(arguments[1])!!.value
         val tokenType = program.tokenHashMap.get(tokenName)
-        val tokenObject = tokenType?.java?.newInstance() as? IToken ?: throw IllegalArgumentException("Invalid token type")
+        val tokenObject = tokenType?.java?.newInstance()?: throw IllegalArgumentException("Invalid token type")
         tokenObject.command(arguments[1],program)
 
         varName = arguments[0]
 
         if(arguments[0].matches(arrayRegex)){
             val expression = Expression()
-            val arrayIndex = expression.evaluateReversePolishNotation(expression.toReversePolishNotation(arrayExpressionRegex.find(arguments[0])!!.value,program.varHashMap)).toInt().toString()
+            val arrayIndex = expression.evaluateRPN(expression.toReversePolishNotation(arrayExpressionRegex.find(arguments[0])!!.value,program.varHashMap)).toInt().toString()
             val arrayName = arrayNameRegex.find(arguments[0])!!.value
-            val arrayToken = arrayName+"["+arrayIndex+"]"
+            val arrayToken = "$arrayName[$arrayIndex]"
             varName = arrayToken
         }
 
@@ -73,7 +70,7 @@ class ExpressionToken : IToken{
         expressionString = match?.value
 
         val expression = Expression()
-        val expressionValue = expression.evaluateReversePolishNotation(expression.toReversePolishNotation(expressionString!!, program.varHashMap))
+        val expressionValue = expression.evaluateRPN(expression.toReversePolishNotation(expressionString!!, program.varHashMap))
         program.stack.add(expressionValue)
     }
 }
@@ -84,14 +81,10 @@ class CallOutToken : IToken{
         val processedInput: String?
         val match = regex.find(input)
         processedInput = match?.value
-
         val tokenName = tokenRegex.find(processedInput!!)!!.value
         val tokenType = program.tokenHashMap.get(tokenName)
         val tokenObject = tokenType?.java?.newInstance()?: throw IllegalArgumentException("Invalid token type")
-
         tokenObject.command(processedInput,program)
-
-
         program.calloutList.add(program.stack.removeFirst().toString())
     }
     override var returnType = "void"

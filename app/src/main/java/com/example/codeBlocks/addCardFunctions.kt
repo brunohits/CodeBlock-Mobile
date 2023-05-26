@@ -1,4 +1,4 @@
-package com.example.OurMobile
+package com.example.codeBlocks
 
 import androidx.compose.ui.unit.dp
 // методы для добавления новых карточек в лист
