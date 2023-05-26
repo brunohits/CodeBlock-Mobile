@@ -1,6 +1,5 @@
-package com.example.codeBlocks
+package com.example.OurMobile
 
-import com.example.OurMobile.R
 import java.util.HashMap
 
 class CelestialElysiaInterpreter(val varHashMap: HashMap<String, Any>,

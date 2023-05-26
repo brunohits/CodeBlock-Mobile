@@ -1,4 +1,4 @@
-package com.example.codeBlocks
+package com.example.OurMobile
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
@@ -21,11 +21,12 @@ import kotlin.math.roundToInt
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import com.example.OurMobile.R
+import androidx.compose.ui.res.stringResource
 
 
-var myGlobalNumber by mutableStateOf(0)
+var number by mutableStateOf(0)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,30 +38,33 @@ fun VarAssignment(onCloseClicked: () -> Unit) {
     val variableValue = remember { mutableStateOf("") }
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(500.dp)
             .height(80.dp)
             .padding(10.dp)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        myGlobalNumber = 2
-                        isDragging.value = true
-                        onCloseClicked()
-                    },
+                detectDragGestures(onDragStart = {
+                    number = 2
+                    isDragging.value = true
+                    onCloseClicked()
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                    }
-                )
+                    })
             }
             .clickable {
-                myGlobalNumber = 2
+                number = 2
                 onCloseClicked()
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.var_assign_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Box {
@@ -69,12 +73,21 @@ fun VarAssignment(onCloseClicked: () -> Unit) {
                     modifier = Modifier
                         .width(200.dp)
                         .padding(10.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
                     value = variableName.value,
-                    onValueChange = { newText -> variableName.value = newText }
+                    onValueChange = { newText -> variableName.value = newText },
+                    shape = RoundedCornerShape(15.dp)
                 )
                 Text(
-                    text = R.string.equal_with_spaces.toString(),
+                    text = stringResource(id = R.string.equal_with_spaces),
                     fontSize = 20.sp,
                     modifier = Modifier.padding(10.dp)
                 )
@@ -82,9 +95,18 @@ fun VarAssignment(onCloseClicked: () -> Unit) {
                     modifier = Modifier
                         .width(200.dp)
                         .padding(10.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
                     value = variableValue.value,
-                    onValueChange = { newText -> variableValue.value = newText }
+                    onValueChange = { newText -> variableValue.value = newText },
+                    shape = RoundedCornerShape(15.dp)
                 )
             }
         }
@@ -100,32 +122,33 @@ fun TypeVar(onCloseClicked: () -> Unit) {
     val selectedType = remember { mutableStateOf("") }
 
     // Сохраненный тип переменной
-    selectedType.value = R.string.int_string.toString()
+    selectedType.value = stringResource(id = R.string.int_string)
     // Сохраненное имя переменной
-    variableName.value = R.string.new_variable.toString()
+    variableName.value = stringResource(id = R.string.new_variable)
 
     Card(
         modifier = Modifier
             .width(500.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 1
+                number = 1
                 onCloseClicked()
             },
-        colors = CardDefaults.cardColors(Color.DarkGray),
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.var_type_block_color)),
         shape = RoundedCornerShape(15.dp)
-    )
-    {
+    ) {
         Column {
-            Row()
-            {
+            Row() {
                 Image(
-                    painter = painterResource(id = R.drawable.globalvaricon), modifier = Modifier
+                    painter = painterResource(id = R.drawable.globalvaricon),
+                    modifier = Modifier
                         .fillMaxSize(0.13f)
-                        .padding(start = 10.dp), contentDescription = "var"
+                        .padding(start = 10.dp),
+                    contentDescription = "var"
                 )
-                IconButton(onClick = { expanded = true }, modifier = Modifier.padding(top = 10.dp))
-                {
+                IconButton(
+                    onClick = { expanded = true }, modifier = Modifier.padding(top = 10.dp)
+                ) {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
                 Text(
@@ -133,22 +156,17 @@ fun TypeVar(onCloseClicked: () -> Unit) {
                     modifier = Modifier.padding(top = 25.dp),
                     fontSize = 15.sp
                 )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     val typeList = listOf(
-                        R.string.int_string.toString(),
-                        R.string.double_string.toString(),
-                        R.string.string_string.toString()
+                        stringResource(id = R.string.int_string),
+                        stringResource(id = R.string.double_string),
+                        stringResource(id = R.string.string_string)
                     )
                     typeList.forEach { type ->
-                        DropdownMenuItem(
-                            text = { Text(text = type) },
-                            onClick = {
-                                selectedType.value = type
-                                expanded = false
-                            })
+                        DropdownMenuItem(text = { Text(text = type) }, onClick = {
+                            selectedType.value = type
+                            expanded = false
+                        })
                     }
                 }
                 Text(text = "   ", fontSize = 15.sp)
@@ -156,11 +174,20 @@ fun TypeVar(onCloseClicked: () -> Unit) {
                     modifier = Modifier
                         .width(200.dp)
                         .padding(top = 10.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = variableName.value,
                     onValueChange = { inputedText ->
                         variableName.value = inputedText
-                    }
+                    },
+                    shape = RoundedCornerShape(15.dp)
                 )
             }
         }
@@ -180,76 +207,83 @@ fun IfBlock(onCloseClicked: () -> Unit) {
             .width(500.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 3
+                number = 3
                 onCloseClicked()
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.if_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Column {
-            Row()
-            {
+            Row() {
                 Text(
-                    text = R.string.if_string.toString(),
+                    text = stringResource(id = R.string.if_string),
                     modifier = Modifier.padding(15.dp),
                     fontSize = 15.sp
                 )
                 TextField(
                     modifier = Modifier.width(200.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = conditionFirst,
                     onValueChange = { newText ->
                         conditionFirst = newText
 // Изменять значение внешнего класса (условия ифа) здесь (при изменении текст филда) именно через condition.value
-                    }
+                    },
+                    shape = RoundedCornerShape(15.dp)
                 )
-                IconButton(onClick = { expanded = true })
-                {
+                IconButton(onClick = { expanded = true }) {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
                 Text(
-                    text = selectedSign,
-                    modifier = Modifier.padding(15.dp),
-                    fontSize = 15.sp
+                    text = selectedSign, modifier = Modifier.padding(15.dp), fontSize = 15.sp
                 )
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ) {
+                DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                     val signList = listOf(
-                        R.string.mega_equal.toString(),
-                        R.string.not_equal.toString(),
-                        R.string.greater.toString(),
-                        R.string.greater_or_equal.toString(),
-                        R.string.less.toString(),
-                        R.string.less_or_equal.toString()
+                        stringResource(id = R.string.mega_equal),
+                        stringResource(id = R.string.not_equal),
+                        stringResource(id = R.string.greater),
+                        stringResource(id = R.string.greater_or_equal),
+                        stringResource(id = R.string.less),
+                        stringResource(id = R.string.less_or_equal)
                     )
                     signList.forEach { sign ->
-                        DropdownMenuItem(
-                            text = { Text(text = sign) },
-                            onClick = {
-                                selectedSign = sign
-                                expanded = false
-                            })
+                        DropdownMenuItem(text = { Text(text = sign) }, onClick = {
+                            selectedSign = sign
+                            expanded = false
+                        })
                     }
                 }
                 TextField(
                     modifier = Modifier.width(200.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = conditionSecond,
                     onValueChange = { newText ->
                         conditionSecond = newText
 // Изменять значение внешнего класса (условия ифа) здесь (при изменении текст филда) именно через condition.value
-                    }
+                    },
+                    shape = RoundedCornerShape(15.dp)
                 )
-                Button(
-                    modifier = Modifier.padding(5.dp),
-                    onClick = {
+                Button(modifier = Modifier.padding(5.dp), onClick = {
 // Действие для удаления блока
-                    }
-                ) {}
+                }) {}
             }
             Text(
-                text = R.string.do_begin.toString(),
+                text = stringResource(id = R.string.do_begin),
                 fontSize = 15.sp,
                 modifier = Modifier.padding(15.dp)
             )
@@ -278,51 +312,78 @@ fun ForBlock(onCloseClicked: () -> Unit) {
             .width(500.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 4
+                number = 4
                 onCloseClicked()
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.for_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Column {
-            Row()
-            {
+            Row() {
                 Text(
-                    text = R.string.for_string.toString(),
+                    text = stringResource(id = R.string.for_string),
                     fontSize = 15.sp,
                     modifier = Modifier.padding(15.dp)
                 )
                 TextField(
                     modifier = Modifier.width(100.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = initExpression.value,
                     onValueChange = { newText ->
                         initExpression.value = newText
                         // Изменять значение внешнего класса (пре-объявление переменной) здесь (при изменении текст филда) именно через initExpression.value
-                    }
+                    },
+                    shape = RoundedCornerShape(15.dp)
                 )
                 Text(text = " ", fontSize = 15.sp, modifier = Modifier.padding(15.dp))
                 TextField(
                     modifier = Modifier.width(100.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = condExpression.value,
                     onValueChange = { newText ->
                         condExpression.value = newText
                         // Изменять значение внешнего класса (условие цикла) здесь (при изменении текст филда) именно через condExpression.value
-                    }
+                    },
+                    shape = RoundedCornerShape(15.dp)
                 )
                 Text(text = " ", fontSize = 15.sp, modifier = Modifier.padding(15.dp))
                 TextField(
                     modifier = Modifier.width(100.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = loopExpression.value,
                     onValueChange = { newText ->
                         loopExpression.value = newText
                         // Изменять значение внешнего класса (действие цикла) здесь (при изменении текст филда) именно через loopExpression.value
-                    }
+                    },
+                    shape = RoundedCornerShape(15.dp)
                 )
             }
             Text(
-                text = R.string.do_begin.toString(),
+                text = stringResource(id = R.string.do_begin),
                 fontSize = 15.sp,
                 modifier = Modifier.padding(15.dp)
             )
@@ -334,7 +395,7 @@ fun ForBlock(onCloseClicked: () -> Unit) {
 // Кард для вывода значения переменной
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoutBlock(onCloseClicked: () -> Unit) {
+fun PrintBlock(onCloseClicked: () -> Unit) {
     val variableName = remember { mutableStateOf("") }
     // Сохраненное значение имени переменной
     variableName.value = ""
@@ -343,26 +404,36 @@ fun CoutBlock(onCloseClicked: () -> Unit) {
             .width(400.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 5
+                number = 5
                 onCloseClicked()
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.print_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
-        Row()
-        {
+        Row(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) {
             Text(
-                text = R.string.print.toString(),
+                text = stringResource(id = R.string.print),
                 fontSize = 15.sp,
                 modifier = Modifier.padding(15.dp)
             )
             TextField(
                 modifier = Modifier.width(200.dp),
+                singleLine = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    disabledTextColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
                 textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                 value = variableName.value,
                 onValueChange = { newText ->
                     variableName.value = newText
                     // Изменять значение внешнего класса (значение имени переменной) здесь (при изменении текст филда) именно через variableName.value
-                }
+                },
+
+                shape = RoundedCornerShape(15.dp)
             )
         }
     }
@@ -382,8 +453,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
                 Button(
                     onClick = {
@@ -402,7 +472,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                             modifier = Modifier.size(40.dp)
                         )
                         Text(
-                            R.string.big_var.toString(),
+                            stringResource(id = R.string.big_var),
                             fontSize = 20.sp,
                             modifier = Modifier.padding(top = 5.dp, start = 40.dp, end = 40.dp)
                         )
@@ -416,7 +486,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 if (selectedButton == 1) {
                     TypeVar(onCloseClicked = onCloseClicked)
                     VarAssignment(onCloseClicked = onCloseClicked)
-                    CoutBlock(onCloseClicked = onCloseClicked)
+                    PrintBlock(onCloseClicked = onCloseClicked)
                 }
                 Button(
                     onClick = {
@@ -435,7 +505,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                             modifier = Modifier.size(40.dp)
                         )
                         Text(
-                            R.string.big_if.toString(),
+                            stringResource(id = R.string.big_if),
                             fontSize = 20.sp,
                             modifier = Modifier.padding(top = 5.dp, start = 55.dp, end = 55.dp)
                         )
@@ -466,7 +536,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                             modifier = Modifier.size(40.dp)
                         )
                         Text(
-                            R.string.big_for.toString(),
+                            stringResource(id = R.string.big_for),
                             fontSize = 18.sp,
                             modifier = Modifier.padding(top = 5.dp, start = 20.dp, end = 20.dp)
                         )
@@ -481,8 +551,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                     ForBlock(onCloseClicked = onCloseClicked)
                 }
                 IconButton(
-                    onClick = onCloseClicked,
-                    modifier = Modifier.padding(top = 16.dp)
+                    onClick = onCloseClicked, modifier = Modifier.padding(top = 16.dp)
                 ) {
                     Icon(Icons.Filled.Close, contentDescription = "close")
                 }

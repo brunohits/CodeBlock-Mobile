@@ -1,4 +1,4 @@
-package com.example.codeBlocks
+package com.example.OurMobile
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
-import com.example.codeBlocks.ui.theme.OurMobileTheme
+import com.example.OurMobile.ui.theme.OurMobileTheme
 
 
 class MainActivity : ComponentActivity() {

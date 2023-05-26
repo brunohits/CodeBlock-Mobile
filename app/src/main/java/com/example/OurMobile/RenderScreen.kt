@@ -1,4 +1,4 @@
-package com.example.codeBlocks
+package com.example.OurMobile
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.example.OurMobile.R
 
 var cardIdCounter = 0
 
@@ -64,14 +63,14 @@ fun MyScreen() {
         }
 
         if (!showNewScreen) {
-            when (myGlobalNumber) {
+            when (number) {
                 1 -> typeVarListToAdd()
                 2 -> varAssignmentToListAdd()
                 3 -> ifBlockToListAdd()
                 4 -> forBlockToListAdd()
-                5 -> coutBlockToListAdd()
+                5 -> printBlockToListAdd()
             }
-            myGlobalNumber = 0
+            number = 0
 
             if (isFirstTime) {
                 EndBeginBlockList.add(EndBeginBlockClass(thisID = cardIdCounter))
@@ -148,7 +147,7 @@ fun MyScreen() {
                     variableName = card.variableName,
                     expanded = card.expanded,
                     selectedType = card.selectedType,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList,
                 )
 
@@ -159,7 +158,7 @@ fun MyScreen() {
                         offsetX = card.offsetX,
                         offsetY = card.offsetY,
                         isDragging = card.isDragging,
-                        thisID = card.thisID,
+                        id = card.thisID,
                         CardList = CardList
                     )
                 } else {
@@ -167,7 +166,7 @@ fun MyScreen() {
                         offsetX = card.offsetX,
                         offsetY = card.offsetY,
                         isDragging = card.isDragging,
-                        thisID = card.thisID,
+                        id = card.thisID,
                         CardList = CardList
                     )
                 }
@@ -180,7 +179,7 @@ fun MyScreen() {
                     isDragging = card.isDragging,
                     VariableName = card.variableName,
                     VariableValue = card.variableValue,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList,
                 )
             }
@@ -193,7 +192,7 @@ fun MyScreen() {
                     conditionSecond = card.conditionSecond,
                     expanded = card.expanded,
                     selectedSign = card.selectedSign,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList,
 
                     )
@@ -206,18 +205,18 @@ fun MyScreen() {
                     initExpression = card.initExpression,
                     condExpression = card.condExpression,
                     loopExpression = card.loopExpression,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList,
 
                     )
             }
             for (card in CoutBlockList) {
-                CoutBlockDraggable(
+                PrintBlockDraggable(
                     offsetX = card.offsetX,
                     offsetY = card.offsetY,
                     isDragging = card.isDragging,
                     variableName = card.variableName,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList,
                 )
             }
@@ -226,7 +225,7 @@ fun MyScreen() {
                     offsetX = card.offsetX,
                     offsetY = card.offsetY,
                     isDragging = card.isDragging,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList
                 )
             }
@@ -235,7 +234,7 @@ fun MyScreen() {
                     offsetX = card.offsetX,
                     offsetY = card.offsetY,
                     isDragging = card.isDragging,
-                    thisID = card.thisID,
+                    id = card.thisID,
                     CardList = CardList
                 )
             }

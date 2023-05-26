@@ -1,4 +1,4 @@
-package com.example.codeBlocks
+package com.example.OurMobile
 
 import androidx.compose.ui.unit.dp
 
@@ -93,7 +93,7 @@ fun forBlockToListAdd() {
     cardIdCounter++
 }
 
-fun coutBlockToListAdd() {
+fun printBlockToListAdd() {
     CoutBlockList.add(CoutBlockClass(thisID = cardIdCounter))
     CardList.add(
         CardClass(

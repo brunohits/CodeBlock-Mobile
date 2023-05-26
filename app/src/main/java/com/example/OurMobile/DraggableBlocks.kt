@@ -1,4 +1,4 @@
-package com.example.codeBlocks
+package com.example.OurMobile
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,19 +26,21 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.OurMobile.R
 import kotlin.math.roundToInt
 
 @Composable
@@ -45,7 +48,7 @@ fun BeginBlock(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(
@@ -58,7 +61,7 @@ fun BeginBlock(
             .width(300.dp)
             .height(60.dp)
             .padding(2.dp)
-            .background(Color.LightGray)
+            .background(Color.Transparent)
             .pointerInput(Unit) {
                 detectDragGestures(onDragStart = {
                     isDragging.value = true
@@ -69,7 +72,7 @@ fun BeginBlock(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value
+                        var i = CardList[id].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -77,6 +80,7 @@ fun BeginBlock(
                         }
                     })
             },
+        colors = CardDefaults.cardColors(colorResource(id = R.color.begin_end_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Box(
@@ -85,7 +89,7 @@ fun BeginBlock(
                 .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = R.string.main_begin.toString(),
+                text = stringResource(id = R.string.main_begin),
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
         }
@@ -97,7 +101,7 @@ fun BeginBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(modifier = Modifier
@@ -119,7 +123,7 @@ fun BeginBlockDraggable(
                     offsetX.value += dragAmount.x
                     offsetY.value += dragAmount.y
                     change.consume()
-                    var i = CardList[thisID].childId.value
+                    var i = CardList[id].childId.value
                     while (i != -1) {
                         CardList[i].offsetY.value += dragAmount.y
                         CardList[i].offsetX.value += dragAmount.x
@@ -134,7 +138,9 @@ fun BeginBlockDraggable(
                 .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = R.string.begin.toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold
+                text = stringResource(id = R.string.begin),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
@@ -145,7 +151,7 @@ fun EndBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(modifier = Modifier
@@ -167,7 +173,7 @@ fun EndBlockDraggable(
                     offsetX.value += dragAmount.x
                     offsetY.value += dragAmount.y
                     change.consume()
-                    var i = CardList[thisID].childId.value
+                    var i = CardList[id].childId.value
                     while (i != -1) {
                         CardList[i].offsetY.value += dragAmount.y
                         CardList[i].offsetX.value += dragAmount.x
@@ -182,7 +188,9 @@ fun EndBlockDraggable(
                 .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = R.string.end.toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold
+                text = stringResource(id = R.string.end),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
             )
         }
     }
@@ -193,7 +201,7 @@ fun EndBlock(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(
@@ -217,7 +225,7 @@ fun EndBlock(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value
+                        var i = CardList[id].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -233,7 +241,7 @@ fun EndBlock(
                 .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = R.string.main_end.toString(),
+                text = stringResource(id = R.string.main_end),
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
         }
@@ -250,16 +258,16 @@ fun TypeVarDraggable(
     expanded: MutableState<Boolean>,
     variableName: MutableState<String>,
     selectedType: MutableState<String>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     // Сохраненный тип переменной
     if (selectedType.value == "") {
-        selectedType.value = R.string.int_string.toString()
+        selectedType.value = stringResource(id = R.string.int_string)
     }
     // Сохраненное имя переменной
     if (variableName.value == "") {
-        variableName.value = R.string.new_variable.toString()
+        variableName.value = stringResource(id = R.string.new_variable)
     }
 
     Card(modifier = Modifier
@@ -281,14 +289,16 @@ fun TypeVarDraggable(
                     offsetX.value += dragAmount.x
                     offsetY.value += dragAmount.y
                     change.consume()
-                    var i = CardList[thisID].childId.value
+                    var i = CardList[id].childId.value
                     while (i != -1) {
                         CardList[i].offsetY.value += dragAmount.y
                         CardList[i].offsetX.value += dragAmount.x
                         i = CardList[i].childId.value
                     }
                 })
-        }, shape = RoundedCornerShape(15.dp)
+        },
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.var_type_block_color)),
+        shape = RoundedCornerShape(15.dp)
 
     ) {
         Column {
@@ -312,9 +322,9 @@ fun TypeVarDraggable(
                     expanded = expanded.value,
                     onDismissRequest = { expanded.value = false }) {
                     val typeList = listOf(
-                        R.string.int_string.toString(),
-                        R.string.double_string.toString(),
-                        R.string.string_string.toString()
+                        stringResource(id = R.string.int_string),
+                        stringResource(id = R.string.double_string),
+                        stringResource(id = R.string.string_string)
                     )
                     typeList.forEach { type ->
                         DropdownMenuItem(text = { Text(text = type) }, onClick = {
@@ -324,15 +334,26 @@ fun TypeVarDraggable(
                     }
                 }
                 Text(text = "   ", fontSize = 15.sp)
-                TextField(modifier = Modifier
-                    .width(200.dp)
-                    .padding(top = 10.dp),
+                TextField(
+                    modifier = Modifier
+                        .width(200.dp)
+                        .padding(top = 10.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = variableName.value,
                     onValueChange = { newText ->
                         variableName.value = newText
                         // Изменять значение внешнего класса (имени переменной) здесь (при изменении текст филда) именно через variableName.value
-                    })
+                    },
+                    shape = RoundedCornerShape(15.dp)
+                )
 
             }
         }
@@ -345,7 +366,7 @@ fun ForBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
     initExpression: MutableState<String>,
     condExpression: MutableState<String>,
@@ -372,7 +393,7 @@ fun ForBlockDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value
+                        var i = CardList[id].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -380,6 +401,7 @@ fun ForBlockDraggable(
                         }
                     })
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.for_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Column(Modifier.padding(16.dp)) {
@@ -390,40 +412,79 @@ fun ForBlockDraggable(
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                TextField(modifier = Modifier.width(200.dp),
+                TextField(
+                    modifier = Modifier.width(200.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = initExpression.value,
                     onValueChange = { newText ->
                         initExpression.value = newText
-                    })
-            }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = R.string.to.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.width(8.dp))
-                TextField(modifier = Modifier.width(200.dp),
-                    textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
-                    value = condExpression.value,
-                    onValueChange = { newText ->
-                        condExpression.value = newText
-                    })
+                    },
+                    shape = RoundedCornerShape(15.dp)
+                )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = R.string.step.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold
+                    text = stringResource(id = R.string.to),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.width(8.dp))
-                TextField(modifier = Modifier.width(200.dp),
+                TextField(
+                    modifier = Modifier.width(200.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
+                    textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
+                    value = condExpression.value,
+                    onValueChange = { newText ->
+                        condExpression.value = newText
+                    },
+                    shape = RoundedCornerShape(15.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(id = R.string.step),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                TextField(
+                    modifier = Modifier.width(200.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = loopExpression.value,
                     onValueChange = { newText ->
                         loopExpression.value = newText
-                    })
+                    },
+                    shape = RoundedCornerShape(15.dp)
+                )
 
             }
             Text(
-                text = R.string.do_begin.toString(),
+                text = stringResource(id = R.string.do_begin),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 16.dp)
@@ -435,12 +496,12 @@ fun ForBlockDraggable(
 // Кард для вывода значения переменной
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoutBlockDraggable(
+fun PrintBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
     variableName: MutableState<String>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(
@@ -463,7 +524,7 @@ fun CoutBlockDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value
+                        var i = CardList[id].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -471,24 +532,36 @@ fun CoutBlockDraggable(
                         }
                     })
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.print_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Row(
             modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = R.string.print.toString(),
+                text = stringResource(id = R.string.print),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(end = 8.dp)
             )
-            TextField(modifier = Modifier.weight(1f),
+            TextField(
+                modifier = Modifier.weight(1f),
+                singleLine = true,
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    disabledTextColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent
+                ),
                 textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                 value = variableName.value,
                 onValueChange = { inputedText ->
                     variableName.value = inputedText
                     // Изменять значение внешнего класса (значение имени переменной) здесь (при изменении текст филда) именно через variableName.value
-                })
+                },
+                shape = RoundedCornerShape(15.dp)
+            )
 
         }
     }
@@ -502,7 +575,7 @@ fun VarAssignmentDraggable(
     isDragging: MutableState<Boolean>,
     VariableName: MutableState<String>,
     VariableValue: MutableState<String>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(
@@ -525,7 +598,7 @@ fun VarAssignmentDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value
+                        var i = CardList[id].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -533,29 +606,52 @@ fun VarAssignmentDraggable(
                         }
                     })
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.var_assign_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Box {
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
             ) {
-                TextField(modifier = Modifier
-                    .weight(1f)
-                    .padding(10.dp),
+                TextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(10.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
                     value = VariableName.value,
-                    onValueChange = { newText -> VariableName.value = newText })
+                    onValueChange = { newText -> VariableName.value = newText },
+                    shape = RoundedCornerShape(15.dp)
+                )
                 Text(
-                    text = R.string.equal.toString(),
+                    text = stringResource(id = R.string.equal),
                     fontSize = 20.sp,
                     modifier = Modifier.padding(10.dp)
                 )
-                TextField(modifier = Modifier
-                    .weight(1f)
-                    .padding(10.dp),
+                TextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(10.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
                     value = VariableValue.value,
-                    onValueChange = { newText -> VariableValue.value = newText })
+                    onValueChange = { newText -> VariableValue.value = newText },
+                    shape = RoundedCornerShape(15.dp)
+                )
             }
         }
     }
@@ -572,7 +668,7 @@ fun IfBlockDraggable(
     conditionSecond: MutableState<String>,
     expanded: MutableState<Boolean>,
     selectedSign: MutableState<String>,
-    thisID: Int,
+    id: Int,
     CardList: MutableList<CardClass>,
 ) {
     Card(
@@ -595,7 +691,7 @@ fun IfBlockDraggable(
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
                         change.consume()
-                        var i = CardList[thisID].childId.value
+                        var i = CardList[id].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
                             CardList[i].offsetX.value += dragAmount.x
@@ -603,6 +699,7 @@ fun IfBlockDraggable(
                         }
                     })
             },
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.if_block_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Column(
@@ -615,14 +712,25 @@ fun IfBlockDraggable(
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                TextField(modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp),
+                TextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(end = 8.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = conditionFirst.value,
                     onValueChange = { newText ->
                         conditionFirst.value = newText
-                    })
+                    },
+                    shape = RoundedCornerShape(15.dp)
+                )
                 IconButton(onClick = { expanded.value = true }) {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
@@ -636,12 +744,12 @@ fun IfBlockDraggable(
                     expanded = expanded.value,
                     onDismissRequest = { expanded.value = false }) {
                     val signList = listOf(
-                        R.string.mega_equal.toString(),
-                        R.string.not_equal.toString(),
-                        R.string.greater.toString(),
-                        R.string.greater_or_equal.toString(),
-                        R.string.less.toString(),
-                        R.string.less_or_equal.toString()
+                        stringResource(id = R.string.mega_equal),
+                        stringResource(id = R.string.not_equal),
+                        stringResource(id = R.string.greater),
+                        stringResource(id = R.string.greater_or_equal),
+                        stringResource(id = R.string.less),
+                        stringResource(id = R.string.less_or_equal)
                     )
                     signList.forEach { sign ->
                         DropdownMenuItem(text = { Text(text = sign) }, onClick = {
@@ -650,17 +758,28 @@ fun IfBlockDraggable(
                         })
                     }
                 }
-                TextField(modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 8.dp),
+                TextField(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 8.dp),
+                    singleLine = true,
+                    colors = TextFieldDefaults.textFieldColors(
+                        textColor = Color.Black,
+                        disabledTextColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        disabledIndicatorColor = Color.Transparent
+                    ),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = conditionSecond.value,
                     onValueChange = { newText ->
                         conditionSecond.value = newText
-                    })
+                    },
+                    shape = RoundedCornerShape(15.dp)
+                )
             }
             Text(
-                text = R.string.begin.toString(),
+                text = stringResource(id = R.string.begin),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 8.dp)
