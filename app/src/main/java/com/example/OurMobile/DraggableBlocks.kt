@@ -543,11 +543,12 @@ fun PrintBlockDraggable(
         Row(
             modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = stringResource(id = R.string.print),
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(end = 8.dp)
+            Image(
+                painter = painterResource(id = R.drawable.print),
+                contentDescription = "print",
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(end = 5.dp)
             )
             TextField(
                 modifier = Modifier.weight(1f),

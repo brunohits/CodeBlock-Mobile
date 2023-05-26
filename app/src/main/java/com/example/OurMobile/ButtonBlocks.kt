@@ -410,10 +410,12 @@ fun PrintBlock(onCloseClicked: () -> Unit) {
         shape = RoundedCornerShape(15.dp),
     ) {
         Row(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) {
-            Text(
-                text = stringResource(id = R.string.print),
-                fontSize = 15.sp,
-                modifier = Modifier.padding(15.dp)
+            Image(
+                painter = painterResource(id = R.drawable.print),
+                contentDescription = "print",
+                modifier = Modifier
+                    .size(30.dp)
+                    .padding(end = 5.dp)
             )
             TextField(
                 modifier = Modifier.width(200.dp),

@@ -13,4 +13,5 @@
     <color name="if_block_color">#EDD170</color>
     <color name="for_block_color">#BF988F</color>
     <color name="print_block_color">#888C46</color>
+    <color name="green_for_run">#339966</color>
 </resources>

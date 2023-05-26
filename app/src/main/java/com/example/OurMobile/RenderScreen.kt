@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -290,18 +291,25 @@ fun MainScreen() {
         }
     }
     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
-        Button(modifier = Modifier
-            .fillMaxWidth(0.5f)
-            .fillMaxHeight(0.1f)
-            .padding(bottom = 20.dp), onClick = {
-            RunApp()
-            printWindow = true
-        }) {
-            Icon(Icons.Filled.PlayArrow, contentDescription = "run", modifier = Modifier.size(50.dp))
+        Button(
+            modifier = Modifier
+                .fillMaxWidth(0.5f)
+                .fillMaxHeight(0.1f)
+                .padding(bottom = 20.dp), onClick = {
+                RunApp()
+                printWindow = true
+            },
+            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.green_for_run))
+        ) {
+            Icon(
+                Icons.Filled.PlayArrow,
+                contentDescription = "run",
+                modifier = Modifier.size(50.dp)
+            )
         }
         Button(
             modifier = Modifier
-                .fillMaxWidth(0.4f)
+                .fillMaxWidth(0.42f)
                 .padding(bottom = 20.dp)
                 .background(Color.Transparent), onClick = {
                 clearScreen()
