@@ -1,6 +1,6 @@
 @Suppress("NAME_SHADOWING")
 class Expression {
-    fun toReversePolishNotation(expression: String, variables: Map<String, Any>): String {
+    fun toRPN(expression: String, variables: Map<String, Any>): String {
         val stack = mutableListOf<String>()
         val output = mutableListOf<String>()
         val operators = setOf("+", "-", "*", "/")
@@ -26,7 +26,7 @@ class Expression {
                     output.add(token)
                 }else if(token.matches(arrayRegex)){
                     val expression = Expression()
-                    val arrayIndex = expression.evaluateRPN(expression.toReversePolishNotation(arrayExpressionRegex.find(token)!!.value,variables)).toInt().toString()
+                    val arrayIndex = expression.evaluateRPN(expression.toRPN(arrayExpressionRegex.find(token)!!.value,variables)).toInt().toString()
                     val arrayName = arrayNameRegex.find(token)!!.value
                     val arrayToken = "$arrayName[$arrayIndex]"
                     val value = variables[arrayToken] ?: throw IllegalArgumentException("Unknown variable: $token")
@@ -71,7 +71,6 @@ class Expression {
         if (stack.size != 1) {
             throw IllegalArgumentException("Invalid RPN expression: $rpn")
         }
-
         return stack[0]
     }
 
