@@ -138,7 +138,7 @@ fun TypeVar(onCloseClicked: () -> Unit) {
         shape = RoundedCornerShape(15.dp)
     ) {
         Column {
-            Row() {
+            Row {
                 Image(
                     painter = painterResource(id = R.drawable.globalvaricon),
                     modifier = Modifier
@@ -414,8 +414,8 @@ fun PrintBlock(onCloseClicked: () -> Unit) {
                 painter = painterResource(id = R.drawable.print),
                 contentDescription = "print",
                 modifier = Modifier
-                    .size(30.dp)
-                    .padding(end = 5.dp)
+                    .size(55.dp)
+                    .padding(start = 12.dp, end = 12.dp)
             )
             TextField(
                 modifier = Modifier.width(200.dp),
@@ -474,7 +474,7 @@ fun MainScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                         )
                         Text(
                             stringResource(id = R.string.big_var),
-                            fontSize = 20.sp,
+                            fontSize = 25.sp,
                             modifier = Modifier.padding(top = 5.dp, start = 40.dp, end = 40.dp)
                         )
                         Image(
@@ -501,17 +501,17 @@ fun MainScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 ) {
                     Row {
                         Image(
-                            painter = painterResource(id = R.drawable.ificon),
+                            painter = painterResource(id = R.drawable.white_if),
                             contentDescription = "ificon",
                             modifier = Modifier.size(40.dp)
                         )
                         Text(
                             stringResource(id = R.string.big_if),
-                            fontSize = 20.sp,
+                            fontSize = 25.sp,
                             modifier = Modifier.padding(top = 5.dp, start = 55.dp, end = 55.dp)
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.ificon),
+                            painter = painterResource(id = R.drawable.white_if),
                             contentDescription = "ificon",
                             modifier = Modifier.size(40.dp)
                         )
@@ -532,18 +532,18 @@ fun MainScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 ) {
                     Row {
                         Image(
-                            painter = painterResource(id = R.drawable.foricon),
-                            contentDescription = "ificon",
+                            painter = painterResource(id = R.drawable.white_for),
+                            contentDescription = "foricon",
                             modifier = Modifier.size(40.dp)
                         )
                         Text(
                             stringResource(id = R.string.big_for),
-                            fontSize = 18.sp,
+                            fontSize = 22.sp,
                             modifier = Modifier.padding(top = 5.dp, start = 20.dp, end = 20.dp)
                         )
                         Image(
-                            painter = painterResource(id = R.drawable.foricon),
-                            contentDescription = "ificon",
+                            painter = painterResource(id = R.drawable.white_for),
+                            contentDescription = "foricon",
                             modifier = Modifier.size(40.dp)
                         )
                     }
@@ -554,7 +554,11 @@ fun MainScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 IconButton(
                     onClick = onCloseClicked, modifier = Modifier.padding(top = 16.dp)
                 ) {
-                    Icon(Icons.Filled.Close, contentDescription = "close")
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = "close",
+                        modifier = Modifier.size(50.dp)
+                    )
                 }
             }
         }

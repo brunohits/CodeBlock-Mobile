@@ -262,8 +262,7 @@ fun MainScreen() {
             var cardWidthInPixels: Int
             var center: Float
             var hasChild: Boolean
-            //Магниты
-            // LocalDensity.current.run { MagnitRange.toDp().to }
+
             if (CardList.all { !it.isDragging.value }) {
                 for (i in 0 until CardList.size) {
                     hasChild = false
@@ -291,31 +290,32 @@ fun MainScreen() {
         }
     }
     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
-        Button(
+        IconButton(
             modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .fillMaxHeight(0.1f)
-                .padding(bottom = 20.dp), onClick = {
-                RunApp()
+                .padding(bottom = 20.dp),
+            onClick = {
+                runApp()
                 printWindow = true
             },
-            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.green_for_run))
+//            colors = ButtonDefaults.buttonColors(colorResource(id = R.color.green_for_run))
         ) {
-            Icon(
-                Icons.Filled.PlayArrow,
-                contentDescription = "run",
-                modifier = Modifier.size(50.dp)
+            Image(
+                painter = painterResource(id = R.drawable.play),
+                contentDescription = "play", modifier = Modifier.size(35.dp)
             )
         }
-        Button(
+        IconButton(
             modifier = Modifier
-                .fillMaxWidth(0.42f)
-                .padding(bottom = 20.dp)
-                .background(Color.Transparent), onClick = {
+                .fillMaxWidth(0.8f)
+                .padding(bottom = 28.dp)
+                .background(Color.Transparent),
+            onClick = {
                 clearScreen()
                 printWindow = false
             },
-            colors = ButtonDefaults.buttonColors(Color.Red)
+//            colors = ButtonDefaults.buttonColors(Color.Red)
         ) {
             Image(painter = painterResource(id = R.drawable.clear), contentDescription = "clear")
         }

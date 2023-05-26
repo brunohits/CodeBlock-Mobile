@@ -10,40 +10,37 @@ var variablesList = mutableListOf<Variables>()
 var doRun: Boolean = true
 var messagesCout = mutableListOf<String>()
 var valuesCout = mutableListOf<Int>()
-var messagesCin: String = ""
 var commandList = mutableListOf<String>()
 
-fun RunApp() {
+fun runApp() {
     valuesCout.clear()
     variablesList.clear()
     messagesCout.clear()
     valuesCout.clear()
     doRun = true
     commandList = createCommandList()
-    var checkCommands: Boolean = checkCommandList(commandList)
+
     if (doRun) {
-        var compiler = CelestialElysiaInterpreter(hashMapOf<String, Any>(), commandList)
+        val compiler = CelestialElysiaInterpreter(hashMapOf(), commandList)
         compiler.interprete()
         messagesCout += compiler.calloutList
     }
     for (i in 0 until messagesCout.size) {
-        Log.d("tag", messagesCout[i])
+        Log.d("MyTag", messagesCout[i])
     }
     for (i in 0 until commandList.size) {
-        Log.d("tag", commandList[i])
+        Log.d("MyTag", commandList[i])
     }
 }
 
 fun createCommandList(): MutableList<String> {
-
-    var commandList = mutableListOf<String>()
-
-    var numOfEnd = 1
-    var endList = mutableListOf<String>()
-
-    var hasChild = true;
+    var hasChild = true
     var childId: Int = CardList[0].childId.value
     var blockNumber = 0
+    val commandList = mutableListOf<String>()
+    val endList = mutableListOf<String>()
+    var numOfEnd = 1
+
     while (hasChild) {
         ++blockNumber
         hasChild = false
@@ -53,10 +50,14 @@ fun createCommandList(): MutableList<String> {
         }
 
         for (i in 0 until typeVarList.size) {
+            //Если это блок создания переменной
             if (typeVarList[i].id == childId) {
                 hasChild = true
+                //,то проверяем создание переменной с таким же именем в блоке
                 if (checkMakeAVariable(typeVarList[i].variableName.value, blockNumber)) {
+                    //если да, то добавляем в список команд переменную с именем и типом,
                     commandList.add("<variable:" + typeVarList[i].variableName.value + "," + typeVarList[i].selectedType.value + ">")
+                    //+создаём объект класса Variables
                     variablesList.add(
                         Variables(
                             typeVarList[i].variableName.value, typeVarList[i].selectedType.value
@@ -71,9 +72,11 @@ fun createCommandList(): MutableList<String> {
 
         if (!hasChild) {
             for (i in 0 until varAssignmentList.size) {
+                //если это блок присваивания, то проверяем можем ли создать переменную с этим именем в блоке
                 if (varAssignmentList[i].id == childId) {
                     hasChild = true
                     var expString = spaceRemove(varAssignmentList[i].variableValue.value)
+                    //если всё ок, то добавляем
                     if (checkMakeAVariable(
                             varAssignmentList[i].variableName.value, blockNumber
                         )
@@ -90,6 +93,7 @@ fun createCommandList(): MutableList<String> {
 
         if (!hasChild) {
             for (i in 0 until CoutBlockList.size) {
+                // если это блок вывода значения переменной, то в список команд добавляется callout
                 if (CoutBlockList[i].id == childId) {
                     hasChild = true
                     var expString = spaceRemove(CoutBlockList[i].variableName.value)
@@ -99,8 +103,12 @@ fun createCommandList(): MutableList<String> {
                 }
             }
         }
+        //check
         if (!hasChild) {
             for (i in 0 until IfBlockList.size) {
+
+                //Если это блок условного оператора, то добавляем if с двумя выражениями из блока условия+сравнение
+                // и номером конечного блока для <endif>` Номер конечного блока увеличивается на 1.(check)
                 if (IfBlockList[i].id == childId) {
                     hasChild = true
                     var expStringFir = spaceRemove(IfBlockList[i].conditionFirst.value)
@@ -117,6 +125,8 @@ fun createCommandList(): MutableList<String> {
 
         if (!hasChild) {
             for (i in 0 until EndBlockList.size) {
+                //Если это блок конца if, то из списка `endList` удаляется последний элемент
+                // и добавляется команда завершения условного оператора.
                 if (EndBlockList[i].id == childId) {
                     hasChild = true
                     if (endList.size > 0) {
@@ -130,7 +140,6 @@ fun createCommandList(): MutableList<String> {
             }
         }
     }
-
     return commandList
 }
 
@@ -139,6 +148,7 @@ fun checkMakeAVariable(name: String, index: Int): Boolean {
     val variableRegex = "([a-zA-Z][a-zA-Z0-9]*)".toRegex()
     var result = name
     result = variableRegex.replaceFirst(result, "a")
+    //Если результат не равен "a", то имя переменной некорректно
     if (result != "a") {
         checkResult = false
         messagesCout.add("In block number: $index name of variable is incorrect")
@@ -147,70 +157,49 @@ fun checkMakeAVariable(name: String, index: Int): Boolean {
 }
 
 fun spaceRemove(exp: String): String {
-    var adjExp = ""
+    //exp.split(" ")
+    var newExp = ""
     for (i in exp.indices) {
         if (exp[i] != ' ') {
-            adjExp += exp[i]
+            newExp += exp[i]
+            exp.split(" ")
         }
     }
-    return adjExp
-}
-
-fun evaluateExpression(expression: String, index: Int): Boolean {
-    val variableRegex = "([a-zA-Z][a-zA-Z0-9]*)"
-    val numberRegex = "((([-])?[1-9][0-9]*([.][0-9]*[1-9])?)|(([-])?[0][.][0-9]*[1-9])|([0]))"
-    val arrayRegex = "([a-zA-Z]+\\[(([a-zA-Z]+)|(([0])|([1-9][0-9]*)))\\])"
-    val operandRegex =
-        "(($variableRegex|$numberRegex|$arrayRegex)[\\+\\-/*]($variableRegex|$numberRegex|$arrayRegex))"
-    val expressionRegex = "(($operandRegex)|([\\(]$operandRegex[\\)]))"
-    val pattern = expressionRegex.toRegex()
-    var result = expression
-    while (pattern.find(result) != null) {
-        val matchResult = pattern.find(result)
-        val matchedText = matchResult?.value
-        println(matchedText)
-        result = pattern.replaceFirst(result, "a")
-        println(result)
-    }
-    if (result == "a") {
-        return true
-    }
-    messagesCout.add("In block number: $index expression is incorrect")
-    return false
+    return newExp
 }
 
 fun normalizationOfExpression(expression: String): String {
     val variableRegex = "([a-zA-Z][a-zA-Z0-9]*)"
     val numberRegex = "(([1-9][0-9]*([.][0-9]*[1-9])?)|([0][.][0-9]*[1-9])|([0]))"
+    //check
     val arrayRegex = "([a-zA-Z]+\\[(([a-zA-Z]+)|(([0])|([1-9][0-9]*)))\\])"
     val expressionRegex =
         "($variableRegex|$numberRegex|$arrayRegex|([\\+\\-\\/\\*])|([\\(])|([\\)]))"
+    val expSpaceReg = "([\\+\\-\\/\\*][ ][\\-][ ])"
+
     val pattern = expressionRegex.toRegex()
-    val expSymbReg = "([\\+\\-\\/\\*][ ][\\-][ ])"
-    var expSymbRegex = expSymbReg.toRegex()
+    val expSpaceRegex = expSpaceReg.toRegex()
     var exp = expression
     var result = ""
 
     while (pattern.find(exp) != null) {
         val matchExp = pattern.find(exp)
-        var matchedExp = matchExp?.value
+        val matchedExp = matchExp?.value
         exp = pattern.replaceFirst(exp, "")
         result += "$matchedExp "
     }
 
-    while (expSymbRegex.find(result) != null) {
-        val matchExp = expSymbRegex.find(result)
+    while (expSpaceRegex.find(result) != null) {
+        //если есть пробел между знаками арифметических операций и отрицательными числами,
+        // то он заменяется на точку
+        val matchExp = expSpaceRegex.find(result)
         val matchedExp = matchExp?.value
         var neededExp = matchedExp.toString()
         neededExp = ".$".toRegex().replaceFirst(neededExp, "")
-        result = expSymbRegex.replaceFirst(result, neededExp)
+        result = expSpaceRegex.replaceFirst(result, neededExp)
     }
 
     result = ".$".toRegex().replaceFirst(result, "")
     return result
 }
 
-fun checkCommandList(commandList: List<String>): Boolean {
-    //toDo
-    return true
-}
