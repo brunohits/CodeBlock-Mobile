@@ -50,16 +50,19 @@ fun BeginBlock(
 ) {
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(300.dp)
             .height(60.dp)
             .padding(2.dp)
             .background(Color.LightGray)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
+                detectDragGestures(onDragStart = {
+                    isDragging.value = true
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
@@ -72,19 +75,17 @@ fun BeginBlock(
                             CardList[i].offsetX.value += dragAmount.x
                             i = CardList[i].childId.value
                         }
-                    }
-                )
+                    })
             },
         shape = RoundedCornerShape(15.dp),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
+                .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Main begin",
+                text = R.string.main_begin.toString(),
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
         }
@@ -99,44 +100,41 @@ fun BeginBlockDraggable(
     thisID: Int,
     CardList: MutableList<CardClass>,
 ) {
-    Card(
-        modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-            .width(200.dp)
-            .height(45.dp)
-            .padding(2.dp)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
-                    onDragEnd = { isDragging.value = false },
-                    onDragCancel = { },
-                    onDrag = { change, dragAmount ->
-                        offsetX.value += dragAmount.x
-                        offsetY.value += dragAmount.y
-                        change.consume()
-                        var i = CardList[thisID].childId.value
-                        while (i != -1) {
-                            CardList[i].offsetY.value += dragAmount.y
-                            CardList[i].offsetX.value += dragAmount.x
-                            i = CardList[i].childId.value
-                        }
-                    }
-                )
+    Card(modifier = Modifier
+        .offset {
+            IntOffset(
+                offsetX.value.roundToInt(), offsetY.value.roundToInt()
+            )
+        }
+        .width(200.dp)
+        .height(45.dp)
+        .padding(2.dp)
+        .pointerInput(Unit) {
+            detectDragGestures(onDragStart = {
+                isDragging.value = true
             },
-        shape = RoundedCornerShape(15.dp)
+                onDragEnd = { isDragging.value = false },
+                onDragCancel = { },
+                onDrag = { change, dragAmount ->
+                    offsetX.value += dragAmount.x
+                    offsetY.value += dragAmount.y
+                    change.consume()
+                    var i = CardList[thisID].childId.value
+                    while (i != -1) {
+                        CardList[i].offsetY.value += dragAmount.y
+                        CardList[i].offsetX.value += dragAmount.x
+                        i = CardList[i].childId.value
+                    }
+                })
+        }, shape = RoundedCornerShape(15.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
+                .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Begin",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+                text = R.string.begin.toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold
             )
         }
     }
@@ -150,44 +148,41 @@ fun EndBlockDraggable(
     thisID: Int,
     CardList: MutableList<CardClass>,
 ) {
-    Card(
-        modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-            .width(200.dp)
-            .height(45.dp)
-            .padding(2.dp)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
-                    onDragEnd = { isDragging.value = false },
-                    onDragCancel = { },
-                    onDrag = { change, dragAmount ->
-                        offsetX.value += dragAmount.x
-                        offsetY.value += dragAmount.y
-                        change.consume()
-                        var i = CardList[thisID].childId.value
-                        while (i != -1) {
-                            CardList[i].offsetY.value += dragAmount.y
-                            CardList[i].offsetX.value += dragAmount.x
-                            i = CardList[i].childId.value
-                        }
-                    }
-                )
+    Card(modifier = Modifier
+        .offset {
+            IntOffset(
+                offsetX.value.roundToInt(), offsetY.value.roundToInt()
+            )
+        }
+        .width(200.dp)
+        .height(45.dp)
+        .padding(2.dp)
+        .pointerInput(Unit) {
+            detectDragGestures(onDragStart = {
+                isDragging.value = true
             },
-        shape = RoundedCornerShape(15.dp)
+                onDragEnd = { isDragging.value = false },
+                onDragCancel = { },
+                onDrag = { change, dragAmount ->
+                    offsetX.value += dragAmount.x
+                    offsetY.value += dragAmount.y
+                    change.consume()
+                    var i = CardList[thisID].childId.value
+                    while (i != -1) {
+                        CardList[i].offsetY.value += dragAmount.y
+                        CardList[i].offsetX.value += dragAmount.x
+                        i = CardList[i].childId.value
+                    }
+                })
+        }, shape = RoundedCornerShape(15.dp)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
+                .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "End",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+                text = R.string.end.toString(), fontSize = 14.sp, fontWeight = FontWeight.Bold
             )
         }
     }
@@ -203,16 +198,19 @@ fun EndBlock(
 ) {
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(300.dp)
             .height(60.dp)
             .padding(2.dp)
             .background(Color.LightGray)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
+                detectDragGestures(onDragStart = {
+                    isDragging.value = true
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
@@ -225,19 +223,17 @@ fun EndBlock(
                             CardList[i].offsetX.value += dragAmount.x
                             i = CardList[i].childId.value
                         }
-                    }
-                )
+                    })
             },
         shape = RoundedCornerShape(15.dp),
     ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
-            contentAlignment = Alignment.Center
+                .padding(8.dp), contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Main End",
+                text = R.string.main_end.toString(),
                 style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold)
             )
         }
@@ -259,49 +255,52 @@ fun TypeVarDraggable(
 ) {
     // Сохраненный тип переменной
     if (selectedType.value == "") {
-        selectedType.value = "int"
+        selectedType.value = R.string.int_string.toString()
     }
     // Сохраненное имя переменной
     if (variableName.value == "") {
-        variableName.value = "NewVariable"
+        variableName.value = R.string.new_variable.toString()
     }
 
-    Card(
-        modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-            .width(400.dp)
-            .height(80.dp)
-            .padding(2.dp)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
-                    onDragEnd = { isDragging.value = false },
-                    onDragCancel = { },
-                    onDrag = { change, dragAmount ->
-                        offsetX.value += dragAmount.x
-                        offsetY.value += dragAmount.y
-                        change.consume()
-                        var i = CardList[thisID].childId.value
-                        while (i != -1) {
-                            CardList[i].offsetY.value += dragAmount.y
-                            CardList[i].offsetX.value += dragAmount.x
-                            i = CardList[i].childId.value
-                        }
-                    }
-                )
+    Card(modifier = Modifier
+        .offset {
+            IntOffset(
+                offsetX.value.roundToInt(), offsetY.value.roundToInt()
+            )
+        }
+        .width(400.dp)
+        .height(80.dp)
+        .padding(2.dp)
+        .pointerInput(Unit) {
+            detectDragGestures(onDragStart = {
+                isDragging.value = true
             },
-        shape = RoundedCornerShape(15.dp)
+                onDragEnd = { isDragging.value = false },
+                onDragCancel = { },
+                onDrag = { change, dragAmount ->
+                    offsetX.value += dragAmount.x
+                    offsetY.value += dragAmount.y
+                    change.consume()
+                    var i = CardList[thisID].childId.value
+                    while (i != -1) {
+                        CardList[i].offsetY.value += dragAmount.y
+                        CardList[i].offsetX.value += dragAmount.x
+                        i = CardList[i].childId.value
+                    }
+                })
+        }, shape = RoundedCornerShape(15.dp)
 
-    )
-    {
+    ) {
         Column {
-            Row()
-            {
-                Image(painter = painterResource(id = R.drawable.globalvaricon),modifier=Modifier.padding(7.dp), contentDescription ="var" )
-                IconButton(onClick = { expanded.value = true }, modifier = Modifier.padding(top=10.dp))
-                {
+            Row {
+                Image(
+                    painter = painterResource(id = R.drawable.globalvaricon),
+                    modifier = Modifier.padding(7.dp),
+                    contentDescription = "var"
+                )
+                IconButton(
+                    onClick = { expanded.value = true }, modifier = Modifier.padding(top = 10.dp)
+                ) {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
                 Text(
@@ -311,28 +310,29 @@ fun TypeVarDraggable(
                 )
                 DropdownMenu(
                     expanded = expanded.value,
-                    onDismissRequest = { expanded.value = false }
-                ) {
-                    val typeList = listOf("int","double","string")
-                    typeList.forEach{type ->
-                        DropdownMenuItem(
-                            text = { Text(text = type) },
-                            onClick = {
-                                selectedType.value = type
-                                expanded.value = false
-                            })
+                    onDismissRequest = { expanded.value = false }) {
+                    val typeList = listOf(
+                        R.string.int_string.toString(),
+                        R.string.double_string.toString(),
+                        R.string.string_string.toString()
+                    )
+                    typeList.forEach { type ->
+                        DropdownMenuItem(text = { Text(text = type) }, onClick = {
+                            selectedType.value = type
+                            expanded.value = false
+                        })
                     }
                 }
                 Text(text = "   ", fontSize = 15.sp)
-                TextField(
-                    modifier = Modifier.width(200.dp).padding(top=10.dp),
+                TextField(modifier = Modifier
+                    .width(200.dp)
+                    .padding(top = 10.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = variableName.value,
                     onValueChange = { newText ->
                         variableName.value = newText
                         // Изменять значение внешнего класса (имени переменной) здесь (при изменении текст филда) именно через variableName.value
-                    }
-                )
+                    })
 
             }
         }
@@ -354,15 +354,18 @@ fun ForBlockDraggable(
 
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(250.dp)
             .padding(2.dp)
             .height(200.dp)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
+                detectDragGestures(onDragStart = {
+                    isDragging.value = true
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
@@ -375,53 +378,52 @@ fun ForBlockDraggable(
                             CardList[i].offsetX.value += dragAmount.x
                             i = CardList[i].childId.value
                         }
-                    }
-                )
+                    })
             },
         shape = RoundedCornerShape(15.dp),
     ) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "For", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = R.string.for_string.toString(),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                TextField(
-                    modifier = Modifier.width(200.dp),
+                TextField(modifier = Modifier.width(200.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = initExpression.value,
                     onValueChange = { newText ->
                         initExpression.value = newText
-                    }
-                )
+                    })
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "to", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(text = R.string.to.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.width(8.dp))
-                TextField(
-                    modifier = Modifier.width(200.dp),
+                TextField(modifier = Modifier.width(200.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = condExpression.value,
                     onValueChange = { newText ->
                         condExpression.value = newText
-                    }
-                )
+                    })
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "step", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = R.string.step.toString(), fontSize = 16.sp, fontWeight = FontWeight.Bold
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                TextField(
-                    modifier = Modifier.width(200.dp),
+                TextField(modifier = Modifier.width(200.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = loopExpression.value,
                     onValueChange = { newText ->
                         loopExpression.value = newText
-                    }
-                )
+                    })
 
             }
             Text(
-                text = "Do begin",
+                text = R.string.do_begin.toString(),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 16.dp)
@@ -443,15 +445,18 @@ fun CoutBlockDraggable(
 ) {
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(300.dp)
             .height(80.dp)
             .padding(2.dp)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
+                detectDragGestures(onDragStart = {
+                    isDragging.value = true
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
@@ -464,29 +469,26 @@ fun CoutBlockDraggable(
                             CardList[i].offsetX.value += dragAmount.x
                             i = CardList[i].childId.value
                         }
-                    }
-                )
+                    })
             },
         shape = RoundedCornerShape(15.dp),
     ) {
-        Row(            modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically)
-        {
+        Row(
+            modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
-                text = "Cout",
+                text = R.string.print.toString(),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(end = 8.dp)
             )
-            TextField(
-                modifier = Modifier.weight(1f),
+            TextField(modifier = Modifier.weight(1f),
                 textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                 value = variableName.value,
                 onValueChange = { inputedText ->
                     variableName.value = inputedText
                     // Изменять значение внешнего класса (значение имени переменной) здесь (при изменении текст филда) именно через variableName.value
-                }
-            )
+                })
 
         }
     }
@@ -505,15 +507,18 @@ fun VarAssignmentDraggable(
 ) {
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(500.dp)
             .height(80.dp)
             .padding(2.dp)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
+                detectDragGestures(onDragStart = {
+                    isDragging.value = true
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
@@ -526,37 +531,31 @@ fun VarAssignmentDraggable(
                             CardList[i].offsetX.value += dragAmount.x
                             i = CardList[i].childId.value
                         }
-                    }
-                )
+                    })
             },
         shape = RoundedCornerShape(15.dp),
     ) {
         Box {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
             ) {
-                TextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(10.dp),
+                TextField(modifier = Modifier
+                    .weight(1f)
+                    .padding(10.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
                     value = VariableName.value,
-                    onValueChange = { newText -> VariableName.value = newText }
-                )
+                    onValueChange = { newText -> VariableName.value = newText })
                 Text(
-                    text = " = ",
+                    text = R.string.equal.toString(),
                     fontSize = 20.sp,
                     modifier = Modifier.padding(10.dp)
                 )
-                TextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(10.dp),
+                TextField(modifier = Modifier
+                    .weight(1f)
+                    .padding(10.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
                     value = VariableValue.value,
-                    onValueChange = { newText -> VariableValue.value = newText }
-                )
+                    onValueChange = { newText -> VariableValue.value = newText })
             }
         }
     }
@@ -578,15 +577,18 @@ fun IfBlockDraggable(
 ) {
     Card(
         modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(), offsetY.value.roundToInt()
+                )
+            }
             .width(500.dp)
             .height(150.dp)
             .padding(8.dp)
             .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
+                detectDragGestures(onDragStart = {
+                    isDragging.value = true
+                },
                     onDragEnd = { isDragging.value = false },
                     onDragCancel = { },
                     onDrag = { change, dragAmount ->
@@ -599,8 +601,7 @@ fun IfBlockDraggable(
                             CardList[i].offsetX.value += dragAmount.x
                             i = CardList[i].childId.value
                         }
-                    }
-                )
+                    })
             },
         shape = RoundedCornerShape(15.dp),
     ) {
@@ -609,21 +610,19 @@ fun IfBlockDraggable(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "If",
+                    text = R.string.if_string.toString(),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(end = 8.dp)
                 )
-                TextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp),
+                TextField(modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = conditionFirst.value,
                     onValueChange = { newText ->
                         conditionFirst.value = newText
-                    }
-                )
+                    })
                 IconButton(onClick = { expanded.value = true }) {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
@@ -635,31 +634,33 @@ fun IfBlockDraggable(
                 )
                 DropdownMenu(
                     expanded = expanded.value,
-                    onDismissRequest = { expanded.value = false }
-                ) {
-                    val signList= listOf("==","!=",">",">=","<","<=")
-                    signList.forEach{ sign ->
-                        DropdownMenuItem(
-                            text = { Text(text = sign) },
-                            onClick = {
-                                selectedSign.value = sign
-                                expanded.value = false
-                            })
+                    onDismissRequest = { expanded.value = false }) {
+                    val signList = listOf(
+                        R.string.mega_equal.toString(),
+                        R.string.not_equal.toString(),
+                        R.string.greater.toString(),
+                        R.string.greater_or_equal.toString(),
+                        R.string.less.toString(),
+                        R.string.less_or_equal.toString()
+                    )
+                    signList.forEach { sign ->
+                        DropdownMenuItem(text = { Text(text = sign) }, onClick = {
+                            selectedSign.value = sign
+                            expanded.value = false
+                        })
                     }
                 }
-                TextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(start = 8.dp),
+                TextField(modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 8.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = conditionSecond.value,
                     onValueChange = { newText ->
                         conditionSecond.value = newText
-                    }
-                )
+                    })
             }
             Text(
-                text = "Then begin",
+                text = R.string.begin.toString(),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 8.dp)

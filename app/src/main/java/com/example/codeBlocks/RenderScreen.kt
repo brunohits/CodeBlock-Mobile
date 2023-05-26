@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import com.example.OurMobile.R
 
 var cardIdCounter = 0
 
@@ -50,14 +51,10 @@ fun MyScreen() {
             .padding(top = 20.dp)
     ) {
         AnimatedVisibility(
-            visible = showNewScreen,
-            enter = slideInVertically(
-                initialOffsetY = { it },
-                animationSpec = tween(durationMillis = 500)
-            ),
-            exit = slideOutVertically(
-                targetOffsetY = { it },
-                animationSpec = tween(durationMillis = 500)
+            visible = showNewScreen, enter = slideInVertically(
+                initialOffsetY = { it }, animationSpec = tween(durationMillis = 500)
+            ), exit = slideOutVertically(
+                targetOffsetY = { it }, animationSpec = tween(durationMillis = 500)
             )
         ) {
             MenuScreen(showNewScreen = showNewScreen) {
@@ -67,7 +64,7 @@ fun MyScreen() {
         }
 
         if (!showNewScreen) {
-            when(myGlobalNumber){
+            when (myGlobalNumber) {
                 1 -> typeVarListToAdd()
                 2 -> varAssignmentToListAdd()
                 3 -> ifBlockToListAdd()
@@ -105,30 +102,25 @@ fun MyScreen() {
                 cardIdCounter++
                 isFirstTime = false
             }
-            Column()
-            {
+            Column() {
                 Row() {
                     Button(
                         modifier = Modifier.fillMaxWidth(0.3f),
                         onClick = {
-
                             showNewScreen = true // показываем новый экран
                         },
                     ) {
-                        Text("MENU")
+                        Text(R.string.menu.toString())
                     }
-                    Row()
-                    {
+                    Row() {
                         IconButton(onClick = {
                             consoleIsVisible = !consoleIsVisible
-                        })
-                        {
+                        }) {
                             Icon(Icons.Filled.List, contentDescription = null)
                         }
                     }
                 }
-                if(consoleIsVisible)
-                {
+                if (consoleIsVisible) {
                     Card(
                         modifier = Modifier
                             .padding(16.dp)
@@ -136,8 +128,7 @@ fun MyScreen() {
                             .height(200.dp)
                             .background(color = Color.Black)
                     ) {
-                        Column()
-                        {
+                        Column() {
                             LazyColumn(
                             ) {
                                 itemsIndexed(messagesCout) { index, item ->
@@ -273,9 +264,10 @@ fun MyScreen() {
                     for (j in 0 until CardList.size) {
                         if (i != j && CardList[i].offsetY.value < CardList[j].offsetY.value && CardList[j].offsetY.value - (CardList[i].offsetY.value + cardHeightInPixels) < magnitRange) {
                             CardList[j].offsetY.value -= CardList[j].offsetY.value - (CardList[i].offsetY.value + cardHeightInPixels)
-                            center = CardList[i].offsetX.value + (cardWidthInPixels/2)
-                            cardWidthInPixels = LocalDensity.current.run { CardList[j].width.toPx() }.toInt()
-                            CardList[j].offsetX.value = center - (cardWidthInPixels/2)
+                            center = CardList[i].offsetX.value + (cardWidthInPixels / 2)
+                            cardWidthInPixels =
+                                LocalDensity.current.run { CardList[j].width.toPx() }.toInt()
+                            CardList[j].offsetX.value = center - (cardWidthInPixels / 2)
                             CardList[i].childId.value = CardList[j].thisID
                             hasChild = true
                         }
@@ -289,13 +281,12 @@ fun MyScreen() {
         }
     }
     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
-        Button(modifier= Modifier
+        Button(modifier = Modifier
             .fillMaxWidth(0.9f)
-            .padding(bottom = 20.dp),onClick = {
+            .padding(bottom = 20.dp), onClick = {
             RunApp()
             consoleIsVisible = true
-        })
-        {
+        }) {
             Icon(Icons.Filled.PlayArrow, contentDescription = "run")
         }
     }

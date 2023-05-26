@@ -3,8 +3,7 @@ package com.example.codeBlocks
 import android.util.Log
 
 class Variables(
-    var variableName: String,
-    var variableType: String
+    var variableName: String, var variableType: String
 )
 
 var variablesList = mutableListOf<Variables>()
@@ -22,18 +21,15 @@ fun RunApp() {
     doRun = true
     commandList = createCommandList()
     var checkCommands: Boolean = checkCommandList(commandList)
-    if(doRun)
-    {
+    if (doRun) {
         var compiler = CelestialElysiaInterpreter(hashMapOf<String, Any>(), commandList)
         compiler.interprete()
         messagesCout += compiler.calloutList
     }
-    for(i in 0 until messagesCout.size)
-    {
+    for (i in 0 until messagesCout.size) {
         Log.d("MyTag", messagesCout[i])
     }
-    for(i in 0 until commandList.size)
-    {
+    for (i in 0 until commandList.size) {
         Log.d("MyTag", commandList[i])
     }
 }
@@ -63,8 +59,7 @@ fun createCommandList(): MutableList<String> {
                     commandList.add("<variable:" + typeVarList[i].variableName.value + "," + typeVarList[i].selectedType.value + ">")
                     variablesList.add(
                         Variables(
-                            typeVarList[i].variableName.value,
-                            typeVarList[i].selectedType.value
+                            typeVarList[i].variableName.value, typeVarList[i].selectedType.value
                         )
                     )
                 } else {
@@ -80,8 +75,7 @@ fun createCommandList(): MutableList<String> {
                     hasChild = true
                     var expString = spaceRemove(varAssignmentList[i].variableValue.value)
                     if (checkMakeAVariable(
-                            varAssignmentList[i].variableName.value,
-                            blockNumber
+                            varAssignmentList[i].variableName.value, blockNumber
                         )
                     ) {
                         expString = normalizationOfExpression(expString)
@@ -104,8 +98,7 @@ fun createCommandList(): MutableList<String> {
                     childId = CoutBlockList[i].childId.value
                 }
             }
-        }
-        /*
+        }/*
         if (!hasChild) {
             for (i in 0 until ForBlockList.size) {
                 if (ForBlockList[i].thisID == childId) {

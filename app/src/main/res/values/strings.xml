@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">codeBlocks</string>
+    <string name="new_variable">NewVariable</string>
+    <string name="menu">MENU</string>
+    <string name="begin">Begin</string>
+    <string name="if_string">if</string>
+    <string name="equal"> = </string>
+    <string name="print">print</string>
+    <string name="do_begin">Do begin</string>
+    <string name="step">step</string>
+    <string name="to">to</string>
+    <string name="for_string">For</string>
+    <string name="int_string">int</string>
+    <string name="double_string">double</string>
+    <string name="string_string">string</string>
+    <string name="main_begin">Main Begin</string>
+    <string name="main_end">Main End</string>
+    <string name="end">End</string>
+    <string name="mega_equal">==</string>
+    <string name="not_equal">!=</string>
+    <string name="greater">&gt;</string>
+    <string name="greater_or_equal">>=</string>
+    <string name="less">&lt;</string>
+    <string name="less_or_equal">&lt;=</string>
 </resources>
