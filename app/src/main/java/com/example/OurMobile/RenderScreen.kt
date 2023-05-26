@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +24,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -43,7 +46,7 @@ var cardIdCounter = 0
 
 @Composable
 fun MainScreen() {
-    var showNewScreen by remember { mutableStateOf(false) }
+    var isMenuOpened by remember { mutableStateOf(false) }
     var printWindow by remember { mutableStateOf(false) }
     var isFirstTime by remember { mutableStateOf(true) }
     Box(
@@ -53,18 +56,18 @@ fun MainScreen() {
             .padding(top = 20.dp)
     ) {
         AnimatedVisibility(
-            visible = showNewScreen, enter = slideInVertically(
+            visible = isMenuOpened, enter = slideInVertically(
                 initialOffsetY = { it }, animationSpec = tween(durationMillis = 500)
             ), exit = slideOutVertically(
                 targetOffsetY = { it }, animationSpec = tween(durationMillis = 500)
             )
         ) {
-            MainScreen(showNewScreen = showNewScreen) {
-                showNewScreen = false
+            MainScreen(showNewScreen = isMenuOpened) {
+                isMenuOpened = false
             }
         }
 
-        if (!showNewScreen) {
+        if (!isMenuOpened) {
             when (number) {
                 1 -> typeVarListToAdd()
                 2 -> varAssignmentToListAdd()
@@ -108,7 +111,7 @@ fun MainScreen() {
                     Button(
                         modifier = Modifier.fillMaxWidth(0.3f),
                         onClick = {
-                            showNewScreen = true
+                            isMenuOpened = true
                         },
                     ) {
                         Text(stringResource(id = R.string.menu))
@@ -288,13 +291,32 @@ fun MainScreen() {
     }
     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
         Button(modifier = Modifier
-            .fillMaxWidth(0.6f)
+            .fillMaxWidth(0.5f)
+            .fillMaxHeight(0.1f)
             .padding(bottom = 20.dp), onClick = {
             RunApp()
             printWindow = true
         }) {
-            Icon(Icons.Filled.PlayArrow, contentDescription = "run")
+            Icon(Icons.Filled.PlayArrow, contentDescription = "run", modifier = Modifier.size(50.dp))
         }
+        Button(
+            modifier = Modifier
+                .fillMaxWidth(0.4f)
+                .padding(bottom = 20.dp)
+                .background(Color.Transparent), onClick = {
+                clearScreen()
+                printWindow = false
+            },
+            colors = ButtonDefaults.buttonColors(Color.Red)
+        ) {
+            Image(painter = painterResource(id = R.drawable.clear), contentDescription = "clear")
+        }
+    }
+}
+
+fun clearScreen() {
+    listOfLists.forEach { list ->
+        list.clear()
     }
 }
 

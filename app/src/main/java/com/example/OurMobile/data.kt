@@ -5,10 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.unit.Dp
 
 data class needClear(
-    var IdToClear:Int,
-    var WhatList:Int,
+    var IdToClear: Int,
+    var WhatList: Int,
 )
-var NeedClear = needClear(-1,0)
+
+var NeedClear = needClear(-1, 0)
 
 
 class CardClass(
@@ -92,6 +93,7 @@ data class BeginBlockClass(
     var isDragging: MutableState<Boolean> = mutableStateOf(false),
     var childId: MutableState<Int> = mutableStateOf(-1),
 )
+
 data class EndBlockClass(
     var offsetX: MutableState<Float> = mutableStateOf(0f),
     var offsetY: MutableState<Float> = mutableStateOf(0f),
@@ -110,3 +112,8 @@ val CoutBlockList = mutableListOf<CoutBlockClass>()
 val BeginBlockList = mutableListOf<BeginBlockClass>()
 val EndBlockList = mutableListOf<EndBlockClass>()
 val EndBeginBlockList = mutableListOf<EndBeginBlockClass>()
+
+val listOfLists = listOf(
+    typeVarList, varAssignmentList, IfBlockList, ForBlockList,
+    CoutBlockList, EndBlockList
+)

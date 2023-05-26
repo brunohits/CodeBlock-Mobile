@@ -27,10 +27,10 @@ fun RunApp() {
         messagesCout += compiler.calloutList
     }
     for (i in 0 until messagesCout.size) {
-        Log.d("MyTag", messagesCout[i])
+        Log.d("tag", messagesCout[i])
     }
     for (i in 0 until commandList.size) {
-        Log.d("MyTag", commandList[i])
+        Log.d("tag", commandList[i])
     }
 }
 

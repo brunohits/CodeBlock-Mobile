@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -163,6 +164,7 @@ fun EndBlockDraggable(
         .width(200.dp)
         .height(45.dp)
         .padding(2.dp)
+        .background(Color.Transparent)
         .pointerInput(Unit) {
             detectDragGestures(onDragStart = {
                 isDragging.value = true
@@ -216,7 +218,7 @@ fun EndBlock(
             .width(300.dp)
             .height(60.dp)
             .padding(2.dp)
-            .background(Color.LightGray)
+            .background(Color.Transparent)
             .pointerInput(Unit) {
                 detectDragGestures(onDragStart = {
                     isDragging.value = true
@@ -235,6 +237,7 @@ fun EndBlock(
                         }
                     })
             },
+        colors = CardDefaults.cardColors(colorResource(id = R.color.begin_end_color)),
         shape = RoundedCornerShape(15.dp),
     ) {
         Box(
@@ -460,10 +463,10 @@ fun ForBlockDraggable(
             }
             Spacer(modifier = Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(id = R.string.step),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                Image(
+                    painter = painterResource(id = R.drawable.step),
+                    contentDescription = "step",
+                    modifier = Modifier.size(30.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 TextField(
@@ -708,11 +711,12 @@ fun IfBlockDraggable(
             Modifier.padding(16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = R.string.if_string.toString(),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(end = 8.dp)
+                Image(
+                    painter = painterResource(id = R.drawable.ificon),
+                    contentDescription = "if",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(end = 10.dp)
                 )
                 TextField(
                     modifier = Modifier

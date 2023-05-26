@@ -214,14 +214,16 @@ fun IfBlock(onCloseClicked: () -> Unit) {
         shape = RoundedCornerShape(15.dp),
     ) {
         Column {
-            Row(modifier = Modifier.padding(top = 10.dp, end = 10.dp)) {
-                Text(
-                    text = stringResource(id = R.string.if_string),
-                    modifier = Modifier.padding(15.dp),
-                    fontSize = 15.sp
+            Row(modifier = Modifier.padding(top = 10.dp, start = 10.dp)) {
+                Image(
+                    painter = painterResource(id = R.drawable.ificon),
+                    contentDescription = "if",
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(end = 10.dp)
                 )
                 TextField(
-                    modifier = Modifier.width(200.dp),
+                    modifier = Modifier.width(150.dp),
                     singleLine = true,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = Color.Black,
@@ -261,7 +263,7 @@ fun IfBlock(onCloseClicked: () -> Unit) {
                     }
                 }
                 TextField(
-                    modifier = Modifier.width(200.dp),
+                    modifier = Modifier.width(100.dp),
                     singleLine = true,
                     colors = TextFieldDefaults.textFieldColors(
                         textColor = Color.Black,
@@ -278,9 +280,6 @@ fun IfBlock(onCloseClicked: () -> Unit) {
                     },
                     shape = RoundedCornerShape(15.dp)
                 )
-                Button(modifier = Modifier.padding(5.dp), onClick = {
-// Действие для удаления блока
-                }) {}
             }
             Text(
                 text = stringResource(id = R.string.do_begin),
