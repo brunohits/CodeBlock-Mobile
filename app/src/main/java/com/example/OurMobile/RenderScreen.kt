@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,14 +35,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 var cardIdCounter = 0
 
 @Composable
-fun MyScreen() {
+fun MainScreen() {
     var showNewScreen by remember { mutableStateOf(false) }
-    var consoleIsVisible by remember { mutableStateOf(false) }
+    var printWindow by remember { mutableStateOf(false) }
     var isFirstTime by remember { mutableStateOf(true) }
     Box(
         modifier = Modifier
@@ -56,8 +59,7 @@ fun MyScreen() {
                 targetOffsetY = { it }, animationSpec = tween(durationMillis = 500)
             )
         ) {
-            MenuScreen(showNewScreen = showNewScreen) {
-                // Закрываем экран
+            MainScreen(showNewScreen = showNewScreen) {
                 showNewScreen = false
             }
         }
@@ -73,27 +75,27 @@ fun MyScreen() {
             number = 0
 
             if (isFirstTime) {
-                EndBeginBlockList.add(EndBeginBlockClass(thisID = cardIdCounter))
+                EndBeginBlockList.add(EndBeginBlockClass(id = cardIdCounter))
                 CardList.add(
                     CardClass(
                         childId = EndBeginBlockList.last().childId,
                         isDragging = EndBeginBlockList.last().isDragging,
                         offsetX = EndBeginBlockList.last().offsetX,
                         offsetY = EndBeginBlockList.last().offsetY,
-                        thisID = 0,
+                        id = 0,
                         width = 300.dp,
                         height = 60.dp
                     )
                 )
                 cardIdCounter++
-                EndBeginBlockList.add(EndBeginBlockClass(thisID = cardIdCounter))
+                EndBeginBlockList.add(EndBeginBlockClass(id = cardIdCounter))
                 CardList.add(
                     CardClass(
                         childId = EndBeginBlockList.last().childId,
                         isDragging = EndBeginBlockList.last().isDragging,
                         offsetX = EndBeginBlockList.last().offsetX,
                         offsetY = EndBeginBlockList.last().offsetY,
-                        thisID = 1,
+                        id = 1,
                         width = 300.dp,
                         height = 60.dp
                     )
@@ -101,39 +103,44 @@ fun MyScreen() {
                 cardIdCounter++
                 isFirstTime = false
             }
-            Column() {
-                Row() {
+            Column {
+                Row {
                     Button(
                         modifier = Modifier.fillMaxWidth(0.3f),
                         onClick = {
-                            showNewScreen = true // показываем новый экран
+                            showNewScreen = true
                         },
                     ) {
-                        Text(R.string.menu.toString())
+                        Text(stringResource(id = R.string.menu))
                     }
-                    Row() {
+                    Row {
                         IconButton(onClick = {
-                            consoleIsVisible = !consoleIsVisible
+                            printWindow = !printWindow
                         }) {
                             Icon(Icons.Filled.List, contentDescription = null)
                         }
                     }
                 }
-                if (consoleIsVisible) {
+                if (printWindow) {
                     Card(
                         modifier = Modifier
                             .padding(16.dp)
                             .width(500.dp)
                             .height(200.dp)
-                            .background(color = Color.Black)
+                            .background(color = Color.Transparent)
                     ) {
-                        Column() {
-                            LazyColumn(
-                            ) {
+                        Column {
+                            LazyColumn {
                                 itemsIndexed(messagesCout) { index, item ->
                                     Text(text = item)
                                 }
                             }
+                            Image(
+                                painter = painterResource(id = R.drawable.roflan),
+                                contentDescription = "lol",
+                                alpha = 0.2f,
+                                modifier = Modifier.fillMaxSize()
+                            )
                         }
                     }
                 }
@@ -147,18 +154,18 @@ fun MyScreen() {
                     variableName = card.variableName,
                     expanded = card.expanded,
                     selectedType = card.selectedType,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList,
                 )
 
             }
             for (card in EndBeginBlockList) {
-                if (card.thisID == 0) {
+                if (card.id == 0) {
                     BeginBlock(
                         offsetX = card.offsetX,
                         offsetY = card.offsetY,
                         isDragging = card.isDragging,
-                        id = card.thisID,
+                        id = card.id,
                         CardList = CardList
                     )
                 } else {
@@ -166,7 +173,7 @@ fun MyScreen() {
                         offsetX = card.offsetX,
                         offsetY = card.offsetY,
                         isDragging = card.isDragging,
-                        id = card.thisID,
+                        id = card.id,
                         CardList = CardList
                     )
                 }
@@ -179,7 +186,7 @@ fun MyScreen() {
                     isDragging = card.isDragging,
                     VariableName = card.variableName,
                     VariableValue = card.variableValue,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList,
                 )
             }
@@ -192,7 +199,7 @@ fun MyScreen() {
                     conditionSecond = card.conditionSecond,
                     expanded = card.expanded,
                     selectedSign = card.selectedSign,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList,
 
                     )
@@ -205,7 +212,7 @@ fun MyScreen() {
                     initExpression = card.initExpression,
                     condExpression = card.condExpression,
                     loopExpression = card.loopExpression,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList,
 
                     )
@@ -216,7 +223,7 @@ fun MyScreen() {
                     offsetY = card.offsetY,
                     isDragging = card.isDragging,
                     variableName = card.variableName,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList,
                 )
             }
@@ -225,7 +232,7 @@ fun MyScreen() {
                     offsetX = card.offsetX,
                     offsetY = card.offsetY,
                     isDragging = card.isDragging,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList
                 )
             }
@@ -234,15 +241,15 @@ fun MyScreen() {
                     offsetX = card.offsetX,
                     offsetY = card.offsetY,
                     isDragging = card.isDragging,
-                    id = card.thisID,
+                    id = card.id,
                     CardList = CardList
                 )
             }
 
             if (NeedClear.IdToClear != -1) {
                 if (NeedClear.WhatList == 1) {
-                    typeVarList.removeIf { it.thisID == NeedClear.IdToClear }
-                    CardList.removeIf { it.thisID == NeedClear.IdToClear }
+                    typeVarList.removeIf { it.id == NeedClear.IdToClear }
+                    CardList.removeIf { it.id == NeedClear.IdToClear }
                     NeedClear.IdToClear = -1
                 }
             }
@@ -267,7 +274,7 @@ fun MyScreen() {
                             cardWidthInPixels =
                                 LocalDensity.current.run { CardList[j].width.toPx() }.toInt()
                             CardList[j].offsetX.value = center - (cardWidthInPixels / 2)
-                            CardList[i].childId.value = CardList[j].thisID
+                            CardList[i].childId.value = CardList[j].id
                             hasChild = true
                         }
                     }
@@ -281,10 +288,10 @@ fun MyScreen() {
     }
     Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
         Button(modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth(0.6f)
             .padding(bottom = 20.dp), onClick = {
             RunApp()
-            consoleIsVisible = true
+            printWindow = true
         }) {
             Icon(Icons.Filled.PlayArrow, contentDescription = "run")
         }

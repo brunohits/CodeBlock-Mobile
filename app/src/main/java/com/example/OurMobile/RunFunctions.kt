@@ -38,12 +38,12 @@ fun createCommandList(): MutableList<String> {
 
     var commandList = mutableListOf<String>()
 
-    var numOfEnd: Int = 1
+    var numOfEnd = 1
     var endList = mutableListOf<String>()
 
     var hasChild = true;
     var childId: Int = CardList[0].childId.value
-    var blockNumber: Int = 0
+    var blockNumber = 0
     while (hasChild) {
         ++blockNumber
         hasChild = false
@@ -53,7 +53,7 @@ fun createCommandList(): MutableList<String> {
         }
 
         for (i in 0 until typeVarList.size) {
-            if (typeVarList[i].thisID == childId) {
+            if (typeVarList[i].id == childId) {
                 hasChild = true
                 if (checkMakeAVariable(typeVarList[i].variableName.value, blockNumber)) {
                     commandList.add("<variable:" + typeVarList[i].variableName.value + "," + typeVarList[i].selectedType.value + ">")
@@ -71,7 +71,7 @@ fun createCommandList(): MutableList<String> {
 
         if (!hasChild) {
             for (i in 0 until varAssignmentList.size) {
-                if (varAssignmentList[i].thisID == childId) {
+                if (varAssignmentList[i].id == childId) {
                     hasChild = true
                     var expString = spaceRemove(varAssignmentList[i].variableValue.value)
                     if (checkMakeAVariable(
@@ -90,7 +90,7 @@ fun createCommandList(): MutableList<String> {
 
         if (!hasChild) {
             for (i in 0 until CoutBlockList.size) {
-                if (CoutBlockList[i].thisID == childId) {
+                if (CoutBlockList[i].id == childId) {
                     hasChild = true
                     var expString = spaceRemove(CoutBlockList[i].variableName.value)
                     expString = normalizationOfExpression(expString)
@@ -98,28 +98,10 @@ fun createCommandList(): MutableList<String> {
                     childId = CoutBlockList[i].childId.value
                 }
             }
-        }/*
-        if (!hasChild) {
-            for (i in 0 until ForBlockList.size) {
-                if (ForBlockList[i].thisID == childId) {
-                    hasChild = true
-                    var expStringFir = spaceRemove(ForBlockList[i].initExpression.value)
-                    var expStringSec = spaceRemove(ForBlockList[i].condExpression.value)
-                    var expStringThir = spaceRemove(ForBlockList[i].loopExpression.value)
-                    expStringFir = normalizationOfExpression(expStringFir)
-                    expStringSec = normalizationOfExpression(expStringSec)
-                    expStringThir = normalizationOfExpression(expStringSec)
-                    commandList.add("<if:<expression:$expStringFir,<expression:$expStringSec>," + IfBlockList[i].selectedSign.value + ",$numOfEnd>")
-                    endList.add("<endfor:$numOfEnd>")
-                    ++numOfEnd
-                    childId = IfBlockList[i].childId.value
-                }
-            }
         }
-        */
         if (!hasChild) {
             for (i in 0 until IfBlockList.size) {
-                if (IfBlockList[i].thisID == childId) {
+                if (IfBlockList[i].id == childId) {
                     hasChild = true
                     var expStringFir = spaceRemove(IfBlockList[i].conditionFirst.value)
                     var expStringSec = spaceRemove(IfBlockList[i].conditionSecond.value)
@@ -135,7 +117,7 @@ fun createCommandList(): MutableList<String> {
 
         if (!hasChild) {
             for (i in 0 until EndBlockList.size) {
-                if (EndBlockList[i].thisID == childId) {
+                if (EndBlockList[i].id == childId) {
                     hasChild = true
                     if (endList.size > 0) {
                         commandList.add(endList[endList.size - 1])

@@ -180,7 +180,9 @@ fun EndBlockDraggable(
                         i = CardList[i].childId.value
                     }
                 })
-        }, shape = RoundedCornerShape(15.dp)
+        },
+        colors = CardDefaults.cardColors(colorResource(id = R.color.begin_end_color)),
+        shape = RoundedCornerShape(15.dp)
     ) {
         Box(
             modifier = Modifier
@@ -407,7 +409,7 @@ fun ForBlockDraggable(
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = R.string.for_string.toString(),
+                    text = stringResource(id = R.string.for_string),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )

@@ -214,7 +214,7 @@ fun IfBlock(onCloseClicked: () -> Unit) {
         shape = RoundedCornerShape(15.dp),
     ) {
         Column {
-            Row() {
+            Row(modifier = Modifier.padding(top = 10.dp, end = 10.dp)) {
                 Text(
                     text = stringResource(id = R.string.if_string),
                     modifier = Modifier.padding(15.dp),
@@ -319,7 +319,7 @@ fun ForBlock(onCloseClicked: () -> Unit) {
         shape = RoundedCornerShape(15.dp),
     ) {
         Column {
-            Row() {
+            Row(modifier = Modifier.padding(top = 10.dp, end = 10.dp)) {
                 Text(
                     text = stringResource(id = R.string.for_string),
                     fontSize = 15.sp,
@@ -401,7 +401,7 @@ fun PrintBlock(onCloseClicked: () -> Unit) {
     variableName.value = ""
     Card(
         modifier = Modifier
-            .width(400.dp)
+            .width(300.dp)
             .padding(10.dp)
             .clickable {
                 number = 5
@@ -440,7 +440,7 @@ fun PrintBlock(onCloseClicked: () -> Unit) {
 }
 
 @Composable
-fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
+fun MainScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
     var selectedButton by remember { mutableStateOf(-1) }
 
     Box(
