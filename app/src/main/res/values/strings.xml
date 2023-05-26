@@ -3,13 +3,13 @@
     <string name="new_variable">NewVariable</string>
     <string name="menu">MENU</string>
     <string name="begin">Begin</string>
-    <string name="if_string">if</string>
+    <string name="if_string">If </string>
     <string name="equal"> = </string>
     <string name="print">print</string>
     <string name="do_begin">Do begin</string>
     <string name="step">step</string>
     <string name="to">to</string>
-    <string name="for_string">For</string>
+    <string name="for_string">For </string>
     <string name="int_string">int</string>
     <string name="double_string">double</string>
     <string name="string_string">string</string>
@@ -22,4 +22,18 @@
     <string name="greater_or_equal">>=</string>
     <string name="less">&lt;</string>
     <string name="less_or_equal">&lt;=</string>
+    <string name="equal_with_spaces"> = </string>
+    <string name="big_var">VARIABLES</string>
+    <string name="big_if">IF</string>
+    <string name="big_for">FOR</string>
+
+    <string name="var_for_token">&lt;variable</string>
+    <string name="equals_for_token">&lt;equals</string>
+    <string name="expr_for_token">&lt;expression</string>
+    <string name="callout_for_token">&lt;callout</string>
+    <string name="if_for_token">&lt;if</string>
+    <string name="endif_for_token">&lt;endif</string>
+    <string name="for_for_token">&lt;for</string>
+    <string name="endfor_for_token">&lt;endfor</string>
+    <string name="array_for_token">&lt;array</string>
 </resources>

@@ -10,11 +10,6 @@ data class needClear(
 )
 var NeedClear = needClear(-1,0)
 
-//1 - TypeVarible
-//2 - VariableAssignment
-//3 - IfBlock
-//4 - ForBlock
-//5 - Cout
 
 class CardClass(
     var offsetX: MutableState<Float> = mutableStateOf(0f),

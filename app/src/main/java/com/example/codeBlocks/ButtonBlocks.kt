@@ -41,7 +41,7 @@ fun VarAssignment(onCloseClicked: () -> Unit) {
             .width(500.dp)
             .height(80.dp)
             .padding(10.dp)
-            .pointerInput(Unit){
+            .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = {
                         myGlobalNumber = 2
@@ -63,7 +63,7 @@ fun VarAssignment(onCloseClicked: () -> Unit) {
             },
         shape = RoundedCornerShape(15.dp),
     ) {
-        Box{
+        Box {
             Row {
                 TextField(
                     modifier = Modifier
@@ -74,7 +74,7 @@ fun VarAssignment(onCloseClicked: () -> Unit) {
                     onValueChange = { newText -> variableName.value = newText }
                 )
                 Text(
-                    text = " = ",
+                    text = R.string.equal_with_spaces.toString(),
                     fontSize = 20.sp,
                     modifier = Modifier.padding(10.dp)
                 )
@@ -100,9 +100,9 @@ fun TypeVar(onCloseClicked: () -> Unit) {
     val selectedType = remember { mutableStateOf("") }
 
     // Сохраненный тип переменной
-    selectedType.value = "int"
+    selectedType.value = R.string.int_string.toString()
     // Сохраненное имя переменной
-    variableName.value = "NewVariable"
+    variableName.value = R.string.new_variable.toString()
 
     Card(
         modifier = Modifier
@@ -119,24 +119,30 @@ fun TypeVar(onCloseClicked: () -> Unit) {
         Column {
             Row()
             {
-                Image(painter = painterResource(id = R.drawable.globalvaricon),modifier= Modifier
-                    .fillMaxSize(0.13f)
-                    .padding(start = 10.dp), contentDescription ="var" )
-                IconButton(onClick = { expanded = true }, modifier = Modifier.padding(top=10.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.globalvaricon), modifier = Modifier
+                        .fillMaxSize(0.13f)
+                        .padding(start = 10.dp), contentDescription = "var"
+                )
+                IconButton(onClick = { expanded = true }, modifier = Modifier.padding(top = 10.dp))
                 {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
                 Text(
                     text = selectedType.value,
-                    modifier = Modifier.padding(top=25.dp),
+                    modifier = Modifier.padding(top = 25.dp),
                     fontSize = 15.sp
                 )
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    val typeList = listOf("int","double","string")
-                    typeList.forEach{type ->
+                    val typeList = listOf(
+                        R.string.int_string.toString(),
+                        R.string.double_string.toString(),
+                        R.string.string_string.toString()
+                    )
+                    typeList.forEach { type ->
                         DropdownMenuItem(
                             text = { Text(text = type) },
                             onClick = {
@@ -182,7 +188,11 @@ fun IfBlock(onCloseClicked: () -> Unit) {
         Column {
             Row()
             {
-                Text(text = "If ", modifier = Modifier.padding(15.dp), fontSize = 15.sp)
+                Text(
+                    text = R.string.if_string.toString(),
+                    modifier = Modifier.padding(15.dp),
+                    fontSize = 15.sp
+                )
                 TextField(
                     modifier = Modifier.width(200.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
@@ -205,8 +215,15 @@ fun IfBlock(onCloseClicked: () -> Unit) {
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    val signList= listOf("==","!=",">",">=","<","<=")
-                    signList.forEach{ sign ->
+                    val signList = listOf(
+                        R.string.mega_equal.toString(),
+                        R.string.not_equal.toString(),
+                        R.string.greater.toString(),
+                        R.string.greater_or_equal.toString(),
+                        R.string.less.toString(),
+                        R.string.less_or_equal.toString()
+                    )
+                    signList.forEach { sign ->
                         DropdownMenuItem(
                             text = { Text(text = sign) },
                             onClick = {
@@ -229,16 +246,16 @@ fun IfBlock(onCloseClicked: () -> Unit) {
                     onClick = {
 // Действие для удаления блока
                     }
-                )
-                {
-                    Text(text = "Del", fontSize = 15.sp)
-                }
+                ) {}
             }
-            Text(text = "Then begin", fontSize = 15.sp, modifier = Modifier.padding(15.dp))
+            Text(
+                text = R.string.do_begin.toString(),
+                fontSize = 15.sp,
+                modifier = Modifier.padding(15.dp)
+            )
         }
     }
 }
-
 
 
 //Кард для фора
@@ -269,7 +286,11 @@ fun ForBlock(onCloseClicked: () -> Unit) {
         Column {
             Row()
             {
-                Text(text = "For ", fontSize = 15.sp, modifier = Modifier.padding(15.dp))
+                Text(
+                    text = R.string.for_string.toString(),
+                    fontSize = 15.sp,
+                    modifier = Modifier.padding(15.dp)
+                )
                 TextField(
                     modifier = Modifier.width(100.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
@@ -299,21 +320,15 @@ fun ForBlock(onCloseClicked: () -> Unit) {
                         // Изменять значение внешнего класса (действие цикла) здесь (при изменении текст филда) именно через loopExpression.value
                     }
                 )
-                Button(
-                    modifier = Modifier.padding(5.dp),
-                    onClick = {
-                        // Действие для удаления блока
-                    }
-                )
-                {
-                    Text(text = "Del", fontSize = 15.sp)
-                }
             }
-            Text(text = "Do begin", fontSize = 15.sp, modifier = Modifier.padding(15.dp))
+            Text(
+                text = R.string.do_begin.toString(),
+                fontSize = 15.sp,
+                modifier = Modifier.padding(15.dp)
+            )
         }
     }
 }
-
 
 
 // Кард для вывода значения переменной
@@ -335,7 +350,11 @@ fun CoutBlock(onCloseClicked: () -> Unit) {
     ) {
         Row()
         {
-            Text(text = "Cout ", fontSize = 15.sp, modifier = Modifier.padding(15.dp))
+            Text(
+                text = R.string.print.toString(),
+                fontSize = 15.sp,
+                modifier = Modifier.padding(15.dp)
+            )
             TextField(
                 modifier = Modifier.width(200.dp),
                 textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
@@ -366,22 +385,34 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                    Button(
-                        onClick = {
-                            selectedButton = if (selectedButton == 1) -1 else 1
-                        },
-                        shape = RoundedCornerShape(40.dp),
-                        modifier = Modifier
-                            .padding(vertical = 8.dp)
-                            .fillMaxWidth(0.9f)
-                            .fillMaxHeight(0.1f)
-                    ) {
-                        Row {
-                            Image(painter = painterResource(id = R.drawable.globalvaricon), contentDescription = "varicon",modifier=Modifier.size(40.dp))
-                            Text("VARIABLES", fontSize = 20.sp, modifier = Modifier.padding(top=5.dp,start = 40.dp, end = 40.dp))
-                            Image(painter = painterResource(id = R.drawable.globalvaricon), contentDescription = "varicon",modifier=Modifier.size(40.dp))
-                        }
+                Button(
+                    onClick = {
+                        selectedButton = if (selectedButton == 1) -1 else 1
+                    },
+                    shape = RoundedCornerShape(40.dp),
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .fillMaxWidth(0.9f)
+                        .fillMaxHeight(0.1f)
+                ) {
+                    Row {
+                        Image(
+                            painter = painterResource(id = R.drawable.globalvaricon),
+                            contentDescription = "varicon",
+                            modifier = Modifier.size(40.dp)
+                        )
+                        Text(
+                            R.string.big_var.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(top = 5.dp, start = 40.dp, end = 40.dp)
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.globalvaricon),
+                            contentDescription = "varicon",
+                            modifier = Modifier.size(40.dp)
+                        )
                     }
+                }
                 if (selectedButton == 1) {
                     TypeVar(onCloseClicked = onCloseClicked)
                     VarAssignment(onCloseClicked = onCloseClicked)
@@ -398,9 +429,21 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                         .fillMaxHeight(0.1f)
                 ) {
                     Row {
-                        Image(painter = painterResource(id = R.drawable.ificon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
-                        Text("IF", fontSize = 20.sp, modifier = Modifier.padding(top=5.dp,start = 55.dp, end = 55.dp))
-                        Image(painter = painterResource(id = R.drawable.ificon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.ificon),
+                            contentDescription = "ificon",
+                            modifier = Modifier.size(40.dp)
+                        )
+                        Text(
+                            R.string.big_if.toString(),
+                            fontSize = 20.sp,
+                            modifier = Modifier.padding(top = 5.dp, start = 55.dp, end = 55.dp)
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.ificon),
+                            contentDescription = "ificon",
+                            modifier = Modifier.size(40.dp)
+                        )
                     }
                 }
                 if (selectedButton == 2) {
@@ -416,10 +459,22 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                         .fillMaxWidth(0.5f)
                         .fillMaxHeight(0.1f)
                 ) {
-                    Row{
-                        Image(painter = painterResource(id = R.drawable.foricon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
-                        Text("FOR", fontSize = 18.sp, modifier = Modifier.padding(top=5.dp,start = 20.dp, end = 20.dp))
-                        Image(painter = painterResource(id = R.drawable.foricon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
+                    Row {
+                        Image(
+                            painter = painterResource(id = R.drawable.foricon),
+                            contentDescription = "ificon",
+                            modifier = Modifier.size(40.dp)
+                        )
+                        Text(
+                            R.string.big_for.toString(),
+                            fontSize = 18.sp,
+                            modifier = Modifier.padding(top = 5.dp, start = 20.dp, end = 20.dp)
+                        )
+                        Image(
+                            painter = painterResource(id = R.drawable.foricon),
+                            contentDescription = "ificon",
+                            modifier = Modifier.size(40.dp)
+                        )
                     }
                 }
                 if (selectedButton == 3) {
@@ -429,7 +484,7 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                     onClick = onCloseClicked,
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
-                    Icon(Icons.Filled.Close, contentDescription ="close" )
+                    Icon(Icons.Filled.Close, contentDescription = "close")
                 }
             }
         }
