@@ -15,7 +15,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.*
 import kotlin.math.roundToInt
@@ -23,31 +22,27 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import com.example.OurMobile.R
 
-var myGlobalNumber by mutableStateOf(0);
-
+var myGlobalNumber by mutableStateOf(0)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VariableAssignment(onCloseClicked: () -> Unit) {
+fun VarAssignment(onCloseClicked: () -> Unit) {
     val offsetX = remember { mutableStateOf(0f) }
     val offsetY = remember { mutableStateOf(0f) }
     val isDragging = remember { mutableStateOf(false) }
-    val VariableName = remember { mutableStateOf("") }
-    val VariableValue = remember { mutableStateOf("") }
-
+    val variableName = remember { mutableStateOf("") }
+    val variableValue = remember { mutableStateOf("") }
     Card(
-
         modifier = Modifier
             .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
             .width(500.dp)
             .height(80.dp)
             .padding(10.dp)
-            .pointerInput(Unit) {
+            .pointerInput(Unit){
                 detectDragGestures(
                     onDragStart = {
-                        myGlobalNumber = 2;
+                        myGlobalNumber = 2
                         isDragging.value = true
                         onCloseClicked()
                     },
@@ -56,27 +51,25 @@ fun VariableAssignment(onCloseClicked: () -> Unit) {
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                     }
                 )
             }
             .clickable {
-                myGlobalNumber = 2;
+                myGlobalNumber = 2
                 onCloseClicked()
-
             },
         shape = RoundedCornerShape(15.dp),
     ) {
-        Box(
-        ) {
-            Row() {
+        Box{
+            Row {
                 TextField(
                     modifier = Modifier
                         .width(200.dp)
                         .padding(10.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
-                    value = VariableName.value,
-                    onValueChange = { newText -> VariableName.value = newText }
+                    value = variableName.value,
+                    onValueChange = { newText -> variableName.value = newText }
                 )
                 Text(
                     text = " = ",
@@ -88,15 +81,9 @@ fun VariableAssignment(onCloseClicked: () -> Unit) {
                         .width(200.dp)
                         .padding(10.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 20.sp),
-                    value = VariableValue.value,
-                    onValueChange = { newText -> VariableValue.value = newText }
+                    value = variableValue.value,
+                    onValueChange = { newText -> variableValue.value = newText }
                 )
-                Button(
-                    onClick = {},
-                    modifier = Modifier.padding(10.dp)
-                ) {
-                    Text(text = "Save")
-                }
             }
         }
     }
@@ -105,7 +92,7 @@ fun VariableAssignment(onCloseClicked: () -> Unit) {
 //Кард для создания переменной
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TypeVariable(onCloseClicked: () -> Unit) {
+fun TypeVar(onCloseClicked: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     val variableName = remember { mutableStateOf("") }
     val selectedType = remember { mutableStateOf("") }
@@ -120,12 +107,11 @@ fun TypeVariable(onCloseClicked: () -> Unit) {
             .width(500.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 1;
+                myGlobalNumber = 1
                 onCloseClicked()
             },
         colors = CardDefaults.cardColors(Color.DarkGray),
         shape = RoundedCornerShape(15.dp)
-
     )
     {
         Column {
@@ -147,27 +133,15 @@ fun TypeVariable(onCloseClicked: () -> Unit) {
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text(text = "int") },
-                        onClick = {
-                            selectedType.value = "int"
-                            // Изменять значение внешнего класса (типа переменной) здесь (при изменении дроп меню) именно через selectedType.value
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "double") },
-                        onClick = {
-                            selectedType.value = "double"
-                            // Изменять значение внешнего класса (типа переменной) здесь (при изменении дроп меню) именно через selectedType.value
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "string") },
-                        onClick = {
-                            selectedType.value = "string"
-                            // Изменять значение внешнего класса (типа переменной) здесь (при изменении дроп меню) именно через selectedType.value
-                            expanded = false
-                        })
+                    val typeList = listOf("int","double","string")
+                    typeList.forEach{type ->
+                        DropdownMenuItem(
+                            text = { Text(text = type) },
+                            onClick = {
+                                selectedType.value = type
+                                expanded = false
+                            })
+                    }
                 }
                 Text(text = "   ", fontSize = 15.sp)
                 TextField(
@@ -176,9 +150,8 @@ fun TypeVariable(onCloseClicked: () -> Unit) {
                         .padding(top = 10.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
                     value = variableName.value,
-                    onValueChange = { newText ->
-                        variableName.value = newText
-                        // Изменять значение внешнего класса (имени переменной) здесь (при изменении текст филда) именно через variableName.value
+                    onValueChange = { inputedText ->
+                        variableName.value = inputedText
                     }
                 )
             }
@@ -191,15 +164,15 @@ fun TypeVariable(onCloseClicked: () -> Unit) {
 @Composable
 fun IfBlock(onCloseClicked: () -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    val conditionFirst= remember { mutableStateOf("") }
-    val conditionSecond = remember { mutableStateOf("") }
+    var conditionFirst by remember { mutableStateOf("") }
+    var conditionSecond by remember { mutableStateOf("") }
     var selectedSign by remember { mutableStateOf("") }
     Card(
         modifier = Modifier
             .width(500.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 3;
+                myGlobalNumber = 3
                 onCloseClicked()
             },
         shape = RoundedCornerShape(15.dp),
@@ -211,13 +184,13 @@ fun IfBlock(onCloseClicked: () -> Unit) {
                 TextField(
                     modifier = Modifier.width(200.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
-                    value = conditionFirst.value,
+                    value = conditionFirst,
                     onValueChange = { newText ->
-                        conditionFirst.value = newText
+                        conditionFirst = newText
 // Изменять значение внешнего класса (условия ифа) здесь (при изменении текст филда) именно через condition.value
                     }
                 )
-                IconButton(onClick = { expanded= true })
+                IconButton(onClick = { expanded = true })
                 {
                     Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                 }
@@ -230,49 +203,22 @@ fun IfBlock(onCloseClicked: () -> Unit) {
                     expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text(text = "==") },
-                        onClick = {
-                            selectedSign = "=="
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "!=") },
-                        onClick = {
-                            selectedSign = "!="
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = ">") },
-                        onClick = {
-                            selectedSign= ">"
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = ">=") },
-                        onClick = {
-                            selectedSign = ">="
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "<") },
-                        onClick = {
-                            selectedSign = "<"
-                            expanded = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "<=") },
-                        onClick = {
-                            selectedSign = "<="
-                            expanded = false
-                        })
+                    val signList= listOf("==","!=",">",">=","<","<=")
+                    signList.forEach{ sign ->
+                        DropdownMenuItem(
+                            text = { Text(text = sign) },
+                            onClick = {
+                                selectedSign = sign
+                                expanded = false
+                            })
+                    }
                 }
                 TextField(
                     modifier = Modifier.width(200.dp),
                     textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
-                    value = conditionSecond.value,
+                    value = conditionSecond,
                     onValueChange = { newText ->
-                        conditionSecond.value = newText
+                        conditionSecond = newText
 // Изменять значение внешнего класса (условия ифа) здесь (при изменении текст филда) именно через condition.value
                     }
                 )
@@ -313,8 +259,8 @@ fun ForBlock(onCloseClicked: () -> Unit) {
             .width(500.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 4;
-                onCloseClicked();
+                myGlobalNumber = 4
+                onCloseClicked()
             },
         shape = RoundedCornerShape(15.dp),
     ) {
@@ -373,17 +319,15 @@ fun ForBlock(onCloseClicked: () -> Unit) {
 @Composable
 fun CoutBlock(onCloseClicked: () -> Unit) {
     val variableName = remember { mutableStateOf("") }
-
     // Сохраненное значение имени переменной
     variableName.value = ""
-
     Card(
         modifier = Modifier
             .width(400.dp)
             .padding(10.dp)
             .clickable {
-                myGlobalNumber = 6;
-                onCloseClicked();
+                myGlobalNumber = 5
+                onCloseClicked()
             },
         shape = RoundedCornerShape(15.dp),
     ) {
@@ -399,20 +343,10 @@ fun CoutBlock(onCloseClicked: () -> Unit) {
                     // Изменять значение внешнего класса (значение имени переменной) здесь (при изменении текст филда) именно через variableName.value
                 }
             )
-            Button(
-                modifier = Modifier.padding(5.dp),
-                onClick = {
-                    // Действие для удаления блока
-                }
-            )
-            {
-                Text(text = "Del", fontSize = 15.sp)
-            }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
     var selectedButton by remember { mutableStateOf(-1) }
@@ -432,44 +366,36 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
             ) {
                     Button(
                         onClick = {
-                            if (selectedButton == 1) {
-                                selectedButton = -1
-                            } else {
-                                selectedButton = 1
-                            }
+                            selectedButton = if (selectedButton == 1) -1 else 1
                         },
-                        shape = RoundedCornerShape(40.dp)  ,
+                        shape = RoundedCornerShape(40.dp),
                         modifier = Modifier
                             .padding(vertical = 8.dp)
                             .fillMaxWidth(0.9f)
                             .fillMaxHeight(0.1f)
                     ) {
-                        Row() {
+                        Row {
                             Image(painter = painterResource(id = R.drawable.globalvaricon), contentDescription = "varicon",modifier=Modifier.size(40.dp))
                             Text("VARIABLES", fontSize = 20.sp, modifier = Modifier.padding(top=5.dp,start = 40.dp, end = 40.dp))
                             Image(painter = painterResource(id = R.drawable.globalvaricon), contentDescription = "varicon",modifier=Modifier.size(40.dp))
                         }
                     }
                 if (selectedButton == 1) {
-                    TypeVariable(onCloseClicked = onCloseClicked)
-                    VariableAssignment(onCloseClicked = onCloseClicked)
+                    TypeVar(onCloseClicked = onCloseClicked)
+                    VarAssignment(onCloseClicked = onCloseClicked)
                     CoutBlock(onCloseClicked = onCloseClicked)
                 }
                 Button(
                     onClick = {
-                        if (selectedButton == 2) {
-                            selectedButton = -1
-                        } else {
-                            selectedButton = 2
-                        }
+                        selectedButton = if (selectedButton == 2) -1 else 2
                     },
-                    shape = RoundedCornerShape(40.dp)  ,
+                    shape = RoundedCornerShape(40.dp),
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .fillMaxWidth(0.7f)
                         .fillMaxHeight(0.1f)
                 ) {
-                    Row() {
+                    Row {
                         Image(painter = painterResource(id = R.drawable.ificon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
                         Text("IF", fontSize = 20.sp, modifier = Modifier.padding(top=5.dp,start = 55.dp, end = 55.dp))
                         Image(painter = painterResource(id = R.drawable.ificon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
@@ -480,19 +406,15 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 }
                 Button(
                     onClick = {
-                        if (selectedButton == 3) {
-                            selectedButton = -1
-                        } else {
-                            selectedButton = 3
-                        }
+                        selectedButton = if (selectedButton == 3) -1 else 3
                     },
-                    shape = RoundedCornerShape(40.dp)  ,
+                    shape = RoundedCornerShape(40.dp),
                     modifier = Modifier
                         .padding(vertical = 8.dp)
                         .fillMaxWidth(0.5f)
                         .fillMaxHeight(0.1f)
                 ) {
-                    Row() {
+                    Row{
                         Image(painter = painterResource(id = R.drawable.foricon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
                         Text("FOR", fontSize = 18.sp, modifier = Modifier.padding(top=5.dp,start = 20.dp, end = 20.dp))
                         Image(painter = painterResource(id = R.drawable.foricon), contentDescription = "ificon",modifier=Modifier.size(40.dp))
@@ -507,12 +429,6 @@ fun MenuScreen(showNewScreen: Boolean, onCloseClicked: () -> Unit) {
                 ) {
                     Icon(Icons.Filled.Close, contentDescription ="close" )
                 }
-            }
-        } else {
-            Button(
-                onClick = {},
-            ) {
-                Text("Нажми меня еще раз")
             }
         }
     }

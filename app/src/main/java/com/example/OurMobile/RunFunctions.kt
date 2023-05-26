@@ -56,40 +56,40 @@ fun createCommandList(): MutableList<String> {
             break
         }
 
-        for (i in 0 until TypeVaribleList.size) {
-            if (TypeVaribleList[i].thisID == childId) {
+        for (i in 0 until typeVarList.size) {
+            if (typeVarList[i].thisID == childId) {
                 hasChild = true
-                if (checkMakeAVariable(TypeVaribleList[i].variableName.value, blockNumber)) {
-                    commandList.add("<variable:" + TypeVaribleList[i].variableName.value + "," + TypeVaribleList[i].selectedType.value + ">")
+                if (checkMakeAVariable(typeVarList[i].variableName.value, blockNumber)) {
+                    commandList.add("<variable:" + typeVarList[i].variableName.value + "," + typeVarList[i].selectedType.value + ">")
                     variablesList.add(
                         Variables(
-                            TypeVaribleList[i].variableName.value,
-                            TypeVaribleList[i].selectedType.value
+                            typeVarList[i].variableName.value,
+                            typeVarList[i].selectedType.value
                         )
                     )
                 } else {
                     doRun = false
                 }
-                childId = TypeVaribleList[i].childId.value
+                childId = typeVarList[i].childId.value
             }
         }
 
         if (!hasChild) {
-            for (i in 0 until VariableAssignmentList.size) {
-                if (VariableAssignmentList[i].thisID == childId) {
+            for (i in 0 until varAssignmentList.size) {
+                if (varAssignmentList[i].thisID == childId) {
                     hasChild = true
-                    var expString = spaceRemove(VariableAssignmentList[i].variableValue.value)
+                    var expString = spaceRemove(varAssignmentList[i].variableValue.value)
                     if (checkMakeAVariable(
-                            VariableAssignmentList[i].variableName.value,
+                            varAssignmentList[i].variableName.value,
                             blockNumber
                         )
                     ) {
                         expString = normalizationOfExpression(expString)
-                        commandList.add("<equals:" + VariableAssignmentList[i].variableName.value + ",<expression:" + expString + ">>")
+                        commandList.add("<equals:" + varAssignmentList[i].variableName.value + ",<expression:" + expString + ">>")
                     } else {
                         doRun = false
                     }
-                    childId = VariableAssignmentList[i].childId.value
+                    childId = varAssignmentList[i].childId.value
                 }
             }
         }

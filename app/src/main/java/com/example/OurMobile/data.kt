@@ -10,12 +10,11 @@ data class needClear(
 )
 var NeedClear = needClear(-1,0)
 
-//1- TypeVarible
-//2- VariableAssignment
+//1 - TypeVarible
+//2 - VariableAssignment
 //3 - IfBlock
 //4 - ForBlock
-//5 - Cin
-//6 - Cout
+//5 - Cout
 
 class CardClass(
     var offsetX: MutableState<Float> = mutableStateOf(0f),
@@ -28,7 +27,7 @@ class CardClass(
 
     )
 
-data class VariableAssignmentClass(
+data class VarAssignmentClass(
     var offsetX: MutableState<Float> = mutableStateOf(0f),
     var offsetY: MutableState<Float> = mutableStateOf(0f),
     var isDragging: MutableState<Boolean> = mutableStateOf(false),
@@ -38,7 +37,6 @@ data class VariableAssignmentClass(
     var childId: MutableState<Int> = mutableStateOf(-1),
 
     )
-
 
 data class IfBlockClass(
     var offsetX: MutableState<Float> = mutableStateOf(0f),
@@ -64,22 +62,13 @@ data class ForBlockClass(
     var childId: MutableState<Int> = mutableStateOf(-1),
 )
 
-data class TypeVaribleClass(
+data class TypeVarClass(
     var offsetX: MutableState<Float> = mutableStateOf(0f),
     var offsetY: MutableState<Float> = mutableStateOf(0f),
     var isDragging: MutableState<Boolean> = mutableStateOf(false),
     var expanded: MutableState<Boolean> = mutableStateOf(false),
     var variableName: MutableState<String> = mutableStateOf(""),
     var selectedType: MutableState<String> = mutableStateOf(""),
-    var thisID: Int,
-    var childId: MutableState<Int> = mutableStateOf(-1),
-)
-
-data class CinBlockClass(
-    var offsetX: MutableState<Float> = mutableStateOf(0f),
-    var offsetY: MutableState<Float> = mutableStateOf(0f),
-    var isDragging: MutableState<Boolean> = mutableStateOf(false),
-    var variableName: MutableState<String> = mutableStateOf(""),
     var thisID: Int,
     var childId: MutableState<Int> = mutableStateOf(-1),
 )
@@ -117,12 +106,11 @@ data class EndBlockClass(
 )
 
 
-val TypeVaribleList = mutableListOf<TypeVaribleClass>()
-val VariableAssignmentList = mutableListOf<VariableAssignmentClass>()
+val typeVarList = mutableListOf<TypeVarClass>()
+val varAssignmentList = mutableListOf<VarAssignmentClass>()
 val IfBlockList = mutableListOf<IfBlockClass>()
 val CardList = mutableListOf<CardClass>()
 val ForBlockList = mutableListOf<ForBlockClass>()
-val CinBlockList = mutableListOf<CinBlockClass>()
 val CoutBlockList = mutableListOf<CoutBlockClass>()
 val BeginBlockList = mutableListOf<BeginBlockClass>()
 val EndBlockList = mutableListOf<EndBlockClass>()

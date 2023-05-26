@@ -65,7 +65,7 @@ fun BeginBlock(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -92,7 +92,7 @@ fun BeginBlock(
 }
 
 @Composable
-fun BeginBlockReal(
+fun BeginBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -115,7 +115,7 @@ fun BeginBlockReal(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -143,7 +143,7 @@ fun BeginBlockReal(
 }
 
 @Composable
-fun EndBlockReal(
+fun EndBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -166,7 +166,7 @@ fun EndBlockReal(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -218,7 +218,7 @@ fun EndBlock(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -247,7 +247,7 @@ fun EndBlock(
 //Кард для создания переменной
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TypeVariableReal(
+fun TypeVarDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -282,7 +282,7 @@ fun TypeVariableReal(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value;
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -313,27 +313,15 @@ fun TypeVariableReal(
                     expanded = expanded.value,
                     onDismissRequest = { expanded.value = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text(text = "int") },
-                        onClick = {
-                            selectedType.value = "int"
-                            // Изменять значение внешнего класса (типа переменной) здесь (при изменении дроп меню) именно через selectedType.value
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "double") },
-                        onClick = {
-                            selectedType.value = "double"
-                            // Изменять значение внешнего класса (типа переменной) здесь (при изменении дроп меню) именно через selectedType.value
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "string") },
-                        onClick = {
-                            selectedType.value = "string"
-                            // Изменять значение внешнего класса (типа переменной) здесь (при изменении дроп меню) именно через selectedType.value
-                            expanded.value = false
-                        })
+                    val typeList = listOf("int","double","string")
+                    typeList.forEach{type ->
+                        DropdownMenuItem(
+                            text = { Text(text = type) },
+                            onClick = {
+                                selectedType.value = type
+                                expanded.value = false
+                            })
+                    }
                 }
                 Text(text = "   ", fontSize = 15.sp)
                 TextField(
@@ -353,7 +341,7 @@ fun TypeVariableReal(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ForBlockReal(
+fun ForBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -380,7 +368,7 @@ fun ForBlockReal(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value;
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -442,71 +430,10 @@ fun ForBlockReal(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun CinBlockReal(
-    offsetX: MutableState<Float>,
-    offsetY: MutableState<Float>,
-    isDragging: MutableState<Boolean>,
-    variableName: MutableState<String>,
-    thisID: Int,
-    CardList: MutableList<CardClass>,
-) {
-    Card(
-        modifier = Modifier
-            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-            .width(300.dp)
-            .padding(2.dp)
-            .height(80.dp)
-            .pointerInput(Unit) {
-                detectDragGestures(
-                    onDragStart = {
-                        isDragging.value = true
-                    },
-                    onDragEnd = { isDragging.value = false },
-                    onDragCancel = { },
-                    onDrag = { change, dragAmount ->
-                        offsetX.value += dragAmount.x
-                        offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
-                        var i = CardList[thisID].childId.value
-                        while (i != -1) {
-                            CardList[i].offsetY.value += dragAmount.y
-                            CardList[i].offsetX.value += dragAmount.x
-                            i = CardList[i].childId.value
-                        }
-                    }
-                )
-            },
-        shape = RoundedCornerShape(15.dp),
-    ) {
-        Row(
-            modifier = Modifier.padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Cin",
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(end = 8.dp)
-            )
-            TextField(
-                modifier = Modifier.weight(1f),
-                textStyle = LocalTextStyle.current.copy(fontSize = 15.sp),
-                value = variableName.value,
-                onValueChange = { newText ->
-                    variableName.value = newText
-                    // Изменять значение внешнего класса (значение имени переменной) здесь (при изменении текст филда) именно через variableName.value
-                }
-            )
-        }
-    }
-}
-
 // Кард для вывода значения переменной
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CoutBlockReal(
+fun CoutBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -514,7 +441,6 @@ fun CoutBlockReal(
     thisID: Int,
     CardList: MutableList<CardClass>,
 ) {
-
     Card(
         modifier = Modifier
             .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
@@ -531,7 +457,7 @@ fun CoutBlockReal(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value;
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -568,7 +494,7 @@ fun CoutBlockReal(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun VariableAssignmentReal(
+fun VarAssignmentDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -593,7 +519,7 @@ fun VariableAssignmentReal(
                     onDrag = { change, dragAmount ->
                         offsetX.value += dragAmount.x
                         offsetY.value += dragAmount.y
-                        change.consumeAllChanges()
+                        change.consume()
                         var i = CardList[thisID].childId.value;
                         while (i != -1) {
                             CardList[i].offsetY.value += dragAmount.y
@@ -639,7 +565,7 @@ fun VariableAssignmentReal(
 //Кард для ифа
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun IfBlockReal(
+fun IfBlockDraggable(
     offsetX: MutableState<Float>,
     offsetY: MutableState<Float>,
     isDragging: MutableState<Boolean>,
@@ -711,42 +637,15 @@ fun IfBlockReal(
                     expanded = expanded.value,
                     onDismissRequest = { expanded.value = false }
                 ) {
-                    DropdownMenuItem(
-                        text = { Text(text = "==") },
-                        onClick = {
-                            selectedSign.value = "=="
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "!=") },
-                        onClick = {
-                            selectedSign.value = "!="
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = ">") },
-                        onClick = {
-                            selectedSign.value = ">"
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = ">=") },
-                        onClick = {
-                            selectedSign.value = ">="
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "<") },
-                        onClick = {
-                            selectedSign.value = "<"
-                            expanded.value = false
-                        })
-                    DropdownMenuItem(
-                        text = { Text(text = "<=") },
-                        onClick = {
-                            selectedSign.value = "<="
-                            expanded.value = false
-                        })
+                    val signList= listOf("==","!=",">",">=","<","<=")
+                    signList.forEach{ sign ->
+                        DropdownMenuItem(
+                            text = { Text(text = sign) },
+                            onClick = {
+                                selectedSign.value = sign
+                                expanded.value = false
+                            })
+                    }
                 }
                 TextField(
                     modifier = Modifier
