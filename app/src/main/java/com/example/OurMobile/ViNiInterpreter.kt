@@ -2,7 +2,7 @@ package com.example.OurMobile
 
 import java.util.HashMap
 
-class CelestialElysiaInterpreter(
+class ViNiInterpreter(
     val varHashMap: HashMap<String, Any>,
     val commandList: MutableList<String>
 ) {

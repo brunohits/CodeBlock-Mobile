@@ -3,7 +3,7 @@ package com.example.OurMobile
 import Expression
 
 interface IToken {
-    fun command(input: String, program: CelestialElysiaInterpreter) {
+    fun command(input: String, program: ViNiInterpreter) {
 
     }
 
@@ -21,7 +21,7 @@ class VariableToken : IToken {
     //command берёт из строки имя переменной и ее тип
     // создает переменную в хэш-таблице varHashMap
     // объекта CelestialElysiaInterpreter и присваивает ей значение
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         val match = regex.find(input)
         val processedInput = match?.value
         val arguments = processedInput!!.split(",")
@@ -46,7 +46,7 @@ class EqualsToken : IToken {
     private val arrayExpressionRegex = Regex("(?<=(\\[)).+(?=]$)")
 
     //command извлекает из строки имя переменной и выражение,
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         var varName: String?
         val processedInput: String?
         val match = regex.find(input)
@@ -94,7 +94,7 @@ class ExpressionToken : IToken {
 
     //command извлекает из строки выражение, преобразует его в опс
     // с помощью Expression и вычисляет его значение, добавляя его в стек
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         val expressionString: String?
         val match = regex.find(input)
         expressionString = match?.value
@@ -115,8 +115,8 @@ class CallOutToken : IToken {
     // command извлекает из строки имя функции,
     // создает объект соответствующего класса и вызывает в себе command,
     // добавляя полученное значение в список вызовов calloutList
-    // объекта CelestialElysiaInterpreter
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    // объекта SpeedRunIntepreter
+    override fun command(input: String, program: ViNiInterpreter) {
 
         val processedInput: String?
         val match = regex.find(input)
@@ -142,7 +142,7 @@ class IfToken : IToken {
     private var endifRegex = Regex("<endif:\\d+>")
     private var idRegex = Regex("(?<=(^<endif:))\\d+(?=>$)")
 
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         //извлекаем из строки аргументы операторов
         val processedInput: String?
         val match = regex.find(input)
@@ -201,7 +201,7 @@ class EndIfToken : IToken {
 class ForToken : IToken {
     override var regex = Regex("(?<=(^<for:)).+(?=>$)")
     override var returnType = "void"
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         //command извлекает из строки аргументы оператора.
         val processedInput: String?
         val match = regex.find(input)
@@ -222,7 +222,7 @@ class EndForToken : IToken {
     //идентификатор цикла
     private var idRegex = Regex("(?<=(,))\\d+(?=>$)")
 
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         val processedInput: String?
         val match = regex.find(input)
         processedInput = match?.value
@@ -251,7 +251,7 @@ class ArrayToken : IToken {
     override var regex = Regex("(?<=(^<array:)).+(?=>\$)")
     override var returnType = "void"
 
-    override fun command(input: String, program: CelestialElysiaInterpreter) {
+    override fun command(input: String, program: ViNiInterpreter) {
         val processedInput: String?
         val match = regex.find(input)
         processedInput = match?.value

@@ -21,15 +21,15 @@ fun runApp() {
     commandList = createCommandList()
 
     if (doRun) {
-        val compiler = CelestialElysiaInterpreter(hashMapOf(), commandList)
+        val compiler = ViNiInterpreter(hashMapOf(), commandList)
         compiler.interprete()
         messagesCout += compiler.calloutList
     }
     for (i in 0 until messagesCout.size) {
-        Log.d("MyTag", messagesCout[i])
+        Log.d("Tag", messagesCout[i])
     }
     for (i in 0 until commandList.size) {
-        Log.d("MyTag", commandList[i])
+        Log.d("Tag", commandList[i])
     }
 }
 
@@ -157,7 +157,6 @@ fun checkMakeAVariable(name: String, index: Int): Boolean {
 }
 
 fun spaceRemove(exp: String): String {
-    //exp.split(" ")
     var newExp = ""
     for (i in exp.indices) {
         if (exp[i] != ' ') {
